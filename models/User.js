@@ -1,26 +1,47 @@
 const mongoose = require("mongoose");
 
+// Define preferences schema
+const preferencesSchema = new mongoose.Schema({
+  currency: String,
+  dateFormat: String,
+  notificationPreferences: {
+    email: Boolean,
+    pushNotifications: Boolean,
+    SMS: Boolean,
+  },
+});
+
+// Define personal info schema
+const personalInfoSchema = new mongoose.Schema({
+  firstName: String,
+  lastName: String,
+  birthdate: Date,
+  address: String,
+  phoneNumber: String,
+  avatarUrl: String,
+});
+
+// Define premium schema
+const premiumSchema = new mongoose.Schema({
+  name: String,
+  price: Number,
+  billingCycle: String,
+  features: [String],
+  paymentDetails: {
+    paymentMethod: String,
+  },
+  expireDate: Date,
+  status: String,
+  createdAt: { type: Date, default: Date.now },
+});
+
+// Define user schema
 const userSchema = new mongoose.Schema({
   username: String,
   email: String,
   password: String,
-  preferences: {
-    currency: String,
-    dateFormat: String,
-    notificationPreferences: {
-      email: Boolean,
-      pushNotifications: Boolean,
-      SMS: Boolean,
-    },
-  },
-  personalInfo: {
-    firstName: String,
-    lastName: String,
-    birthdate: Date,
-    address: String,
-    phoneNumber: String,
-    avatarUrl: String,
-  },
+  preferences: preferencesSchema,
+  personalInfo: personalInfoSchema,
   bankAccounts: [{ type: mongoose.Schema.Types.ObjectId, ref: "BankAccount" }],
   cash: {
     wallet: Number,
@@ -40,21 +61,13 @@ const userSchema = new mongoose.Schema({
   settings: {
     language: String,
     timezone: String,
-  }, 
-  premium: {
-    name: String,
-    price: Number,
-    billingCycle: String,
-    features: [String],
-    paymentDetails: {
-      paymentMethod: String,
-    },
-    expireDate: Date,
-    status: String,
-    createdAt: { type: Date, default: Date.now },
   },
+  premium: premiumSchema,
+  forgotPasswordToken: String,
+  forgotPasswordExpiry: Date,
 });
 
+// Create or retrieve User model
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 
 module.exports = User;
