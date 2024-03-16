@@ -34,9 +34,21 @@ export function withAuth(handler) {
         return res.status(404).json({ message: "User Not Found" });
       }
 
-      // Attach user object to request for further handling
-      user.password = undefined;
-      req.user = user;
+      // Remove sensitive fields from the user object
+      const {
+        password,
+        bankAccounts,
+        expenses,
+        incomes,
+        budgets,
+        financialGoals,
+        debts,
+        billReminders,
+        ...safeUser
+      } = user.toObject();
+
+      // Attach safe user object to request for further handling
+      req.user = safeUser;
 
       // Call the original request handler function
       return handler(req, res);
