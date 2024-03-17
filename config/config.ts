@@ -1,0 +1,11 @@
+export const ENVIRONMENT = process.env.NODE_ENV;
+export const JWT_SECRET = process.env.JWT_SECRET;
+export const JWT_ACCESS_TOKEN_EXPIRY = process.env.JWT_ACCESS_TOKEN_EXPIRY;
+export const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
+export const JWT_REFRESH_TOKEN_EXPIRY = process.env.JWT_REFRESH_TOKEN_EXPIRY;
+export const SMTP_HOST = process.env.SMTP_HOST;
+export const SMTP_PORT = process.env.SMTP_PORT;
+export const SMTP_USER = process.env.SMTP_USER;
+export const EMAIL_FROM = process.env.EMAIL_FROM;
+export const SMTP_PASS = process.env.SMTP_PASS;
+export const WEBSITE_URL = process.env.WEBSITE_URL;
