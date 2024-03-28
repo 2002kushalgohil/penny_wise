@@ -32,11 +32,11 @@ function Stats() {
           return (
             <div className="text-center flex flex-col items-center justify-center gap-2" key={index}>
               {/* Displaying statistic value */}
-              <h2 className="gradientText text-4xl md:text-6xl font-bold !z-20">
+              <h2 className="gradientText text-4xl md:text-6xl !z-20">
                 {data.value}
               </h2>
               {/* Displaying statistic title */}
-              <p className="font-semibold !z-20">{data.title}</p>
+              <p className="!z-20">{data.title}</p>
             </div>
           );
         })}

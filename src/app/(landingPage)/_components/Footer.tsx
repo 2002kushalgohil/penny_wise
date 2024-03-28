@@ -35,14 +35,14 @@ const Footer: React.FC<FooterProps> = ({ setIsEmailSignupDialog }) => {
           <div className="flex items-center justify-start gap-5">
             <img src="logos/LogoBlack.svg" className="w-14 dark:hidden" />
             <img src="logos/LogoWhite.svg" className="w-14 hidden dark:flex" />
-            <h4 className="font-bold text-md">PENNY WISE</h4>
+            <h4 className="text-md">PENNY WISE</h4>
           </div>
           <p>Take Control of Your Finances with Penny Wise</p>
         </div>
 
         {/* Links */}
         <div className="flex flex-col items-start gap-3">
-          <h3 className="font-bold text-lg">Links</h3>
+          <h3 className="text-lg">Links</h3>
           <a href="#Home" className="link">
             Home
           </a>
@@ -65,7 +65,7 @@ const Footer: React.FC<FooterProps> = ({ setIsEmailSignupDialog }) => {
 
         {/* Social media links, email signup form, and theme switcher */}
         <div className="flex flex-col items-start gap-5">
-          <h3 className="font-bold text-lg">Get in touch</h3>
+          <h3 className="text-lg">Get in touch</h3>
           <div className="flex gap-3 items-center justify-start">
             {/* Social media icons go here */}
           </div>

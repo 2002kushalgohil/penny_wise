@@ -62,7 +62,7 @@ const Navbar: React.FC<{ setIsEmailSignupDialog: React.Dispatch<React.SetStateAc
         <a href="#Home" className="flex items-center justify-start cursor-pointer gap-5">
           <img src="logos/LogoBlack.svg" className="w-14 dark:hidden" alt="Logo" />
           <img src="logos/LogoWhite.svg" className="w-14 hidden dark:flex" alt="Logo" />
-          <h4 className="font-bold text-md mr-10 hover:text-primary transition-all">PENNY WISE</h4>
+          <h4 className="text-md mr-10 hover:text-primary transition-all">PENNY WISE</h4>
         </a>
         <div className="hidden lg:flex items-center justify-start gap-5">
           {/* Generate navbar links */}
@@ -90,7 +90,7 @@ const Navbar: React.FC<{ setIsEmailSignupDialog: React.Dispatch<React.SetStateAc
           <a href="#home" className="flex items-center justify-start cursor-pointer gap-5">
             <img src="logos/LogoBlack.svg" className="w-14 dark:hidden" alt="Logo" />
             <img src="logos/LogoWhite.svg" className="w-14 hidden dark:flex" alt="Logo" />
-            <h4 className="font-bold text-md mr-10 hover:text-primary transition-all">
+            <h4 className=" text-md mr-10 hover:text-primary transition-all">
               PENNY WISE
             </h4>
           </a>
