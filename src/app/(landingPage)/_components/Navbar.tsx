@@ -60,8 +60,8 @@ const Navbar: React.FC<{ setIsEmailSignupDialog: React.Dispatch<React.SetStateAc
         }`}
       >
         <a href="#Home" className="flex items-center justify-start cursor-pointer gap-5">
-          <img src="Logo_black.svg" className="w-14 dark:hidden" alt="Logo" />
-          <img src="Logo_white.svg" className="w-14 hidden dark:flex" alt="Logo" />
+          <img src="logos/Logo_black.svg" className="w-14 dark:hidden" alt="Logo" />
+          <img src="logos/Logo_white.svg" className="w-14 hidden dark:flex" alt="Logo" />
           <h4 className="font-bold text-md mr-10 hover:text-primary transition-all">PENNY WISE</h4>
         </a>
         <div className="hidden lg:flex items-center justify-start gap-5">
@@ -88,8 +88,8 @@ const Navbar: React.FC<{ setIsEmailSignupDialog: React.Dispatch<React.SetStateAc
       >
         <div className="w-full flex items-center justify-between">
           <a href="#home" className="flex items-center justify-start cursor-pointer gap-5">
-            <img src="Logo_black.svg" className="w-14 dark:hidden" alt="Logo" />
-            <img src="Logo_white.svg" className="w-14 hidden dark:flex" alt="Logo" />
+            <img src="logos/Logo_black.svg" className="w-14 dark:hidden" alt="Logo" />
+            <img src="logos/Logo_white.svg" className="w-14 hidden dark:flex" alt="Logo" />
             <h4 className="font-bold text-md mr-10 hover:text-primary transition-all">
               PENNY WISE
             </h4>

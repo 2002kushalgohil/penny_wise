@@ -33,8 +33,8 @@ const Footer: React.FC<FooterProps> = ({ setIsEmailSignupDialog }) => {
         {/* Logo and tagline */}
         <div className="flex flex-col items-start gap-5">
           <div className="flex items-center justify-start gap-5">
-            <img src="Logo_black.svg" className="w-14 dark:hidden" />
-            <img src="Logo_white.svg" className="w-14 hidden dark:flex" />
+            <img src="logos/Logo_black.svg" className="w-14 dark:hidden" />
+            <img src="logos/Logo_white.svg" className="w-14 hidden dark:flex" />
             <h4 className="font-bold text-md">PENNY WISE</h4>
           </div>
           <p>Take Control of Your Finances with Penny Wise</p>
