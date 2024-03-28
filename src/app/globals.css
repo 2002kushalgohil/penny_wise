@@ -2,40 +2,160 @@
 @tailwind components;
 @tailwind utilities;
 
-/* global.css */
 @font-face {
-    font-family: 'Gilroy-Bold';
-    src: url('/fonts/Gilroy-Bold.woff2') format('woff2'),
-         url('/fonts/Gilroy-Bold.woff') format('woff');
-    font-weight: bold;
-    font-style: normal;
-  }
-  
-  @font-face {
-    font-family: 'Gilroy-Regular';
-    src: url('/fonts/Gilroy-Regular.woff2') format('woff2'),
-         url('/fonts/Gilroy-Regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-  }
-  
-  @font-face {
-    font-family: 'Gilroy-RegularItalic';
-    src: url('/fonts/Gilroy-RegularItalic.woff2') format('woff2'),
-         url('/fonts/Gilroy-RegularItalic.woff') format('woff');
-    font-weight: normal;
-    font-style: italic;
-  }
-  
-  @font-face {
-    font-family: 'Gilroy-SemiBold';
-    src: url('/fonts/Gilroy-SemiBold.woff2') format('woff2'),
-         url('/fonts/Gilroy-SemiBold.woff') format('woff');
-    font-weight: 600;
-    font-style: normal;
-  }
-  
-  body,html {
-    font-family: 'Gilroy-Regular', sans-serif; /* Fallback font */
-    height: 100%;
-  }
+  font-family: "Gilroy-Bold";
+  src: url("/fonts/Gilroy-Bold.woff2") format("woff2"),
+    url("/fonts/Gilroy-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Gilroy-Regular";
+  src: url("/fonts/Gilroy-Regular.woff2") format("woff2"),
+    url("/fonts/Gilroy-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Gilroy-RegularItalic";
+  src: url("/fonts/Gilroy-RegularItalic.woff2") format("woff2"),
+    url("/fonts/Gilroy-RegularItalic.woff") format("woff");
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Gilroy-SemiBold";
+  src: url("/fonts/Gilroy-SemiBold.woff2") format("woff2"),
+    url("/fonts/Gilroy-SemiBold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+}
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 240 10% 3.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 240 10% 3.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 3.9%;
+  --primary: 157 77% 60%;
+  --primary-foreground: 355.7 100% 97.3%;
+  --secondary: 240 4.8% 95.9%;
+  --secondary-foreground: 240 5.9% 10%;
+  --muted: 240 4.8% 95.9%;
+  --muted-foreground: 240 3.8% 46.1%;
+  --accent: 240 4.8% 95.9%;
+  --accent-foreground: 240 5.9% 10%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 5.9% 90%;
+  --input: 240 5.9% 90%;
+  --ring: 157 77% 60%; /* Use the primary color for ring as well */
+  --radius: 0.7rem;
+  --description-color: #7a7a7a;
+}
+
+.dark {
+  --background: 20 14.3% 4.1%;
+  --foreground: 0 0% 95%;
+  --card: 24 9.8% 10%;
+  --card-foreground: 0 0% 95%;
+  --popover: 0 0% 9%;
+  --popover-foreground: 0 0% 95%;
+  --primary: 157 70.6% 55%;
+  --primary-foreground: 144.9 80.4% 10%;
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 0 0% 15%;
+  --muted-foreground: 240 5% 64.9%;
+  --accent: 12 6.5% 15.1%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 85.7% 97.3%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --ring: 157 71.8% 50%; /* Adjusted darker shade of primary color for ring */
+  --radius: 0.7rem;
+  --description-color: #7a7a7a;
+}
+
+* {
+  @apply border-border;
+  /* border: 1px solid red; */
+}
+body {
+  @apply bg-background text-foreground;
+}
+
+body,
+html {
+  font-family: "Gilroy-Regular", sans-serif; /* Fallback font */
+  height: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.globalPadding {
+  @apply px-8 py-8 md:px-24 md:py-24 w-full;
+}
+
+p {
+  color: var(--description-color);
+}
+
+.gradientText {
+  background: linear-gradient(
+    167deg,
+    hsl(var(--secondary-foreground)),
+    hsl(var(--secondary))
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  width: fit-content;
+}
+
+.dots {
+  background-image: radial-gradient(
+    hsl(var(--secondary)) 3px,
+    hsl(var(--background)) 1px
+  );
+  background-size: 30px 30px;
+}
+
+.dark .dots {
+  background-image: radial-gradient(
+    hsl(var(--secondary)) 1.3px,
+    hsl(var(--background)) 1px
+  );
+  background-size: 30px 30px;
+}
+
+.customCard {
+  @apply bg-gray-500 dark:bg-gray-600 bg-opacity-5 dark:bg-opacity-10 shadow-sm hover:shadow-lg border-[1px] border-transparent hover:border-border transition-all backdrop-blur-lg backdrop-filter p-8 md:p-10 rounded-3xl;
+}
+
+.bgGrid {
+  @apply bg-[linear-gradient(to_right,#80808020_1px,transparent_1px),linear-gradient(to_bottom,#80808020_1px,transparent_1px)] bg-[size:14px_24px];
+}
+
+.dark .bgGrid {
+  @apply bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px];
+}
+
+.swiper-pagination .swiper-pagination-bullet {
+  @apply bg-[hsl(var(--secondary-foreground))];
+}
+
+.testimonialSwiper .swiper-slide-next,
+.testimonialSwiper .swiper-slide-prev {
+  opacity: 0.5;
+  scale: 0.9;
+  transition: all 0.5s ease-in-out !important;
+}
