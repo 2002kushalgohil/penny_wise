@@ -1,7 +1,17 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
-function layout({ children }: { children: React.ReactNode }) {
-  return (<div className="h-full">{children}</div>);
+// Define props interface for the layout component
+interface LayoutProps {
+  children: ReactNode;
 }
 
-export default layout;
+// Layout component
+function Layout({ children }: LayoutProps) {
+  return (
+    <>
+      <div>{children}</div>
+    </>
+  );
+}
+
+export default Layout;
