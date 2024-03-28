@@ -1,4 +1,5 @@
 // Import global styles
+import Head from "next/head";
 import "./globals.css";
 
 // Import necessary dependencies
@@ -27,6 +28,12 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
       <body className="light">
+        <Head>
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+          />
+        </Head>
         {children}
       </body>
     </html>
