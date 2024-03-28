@@ -83,7 +83,7 @@
 }
 
 * {
-  @apply border-border;
+  @apply border-border !transition-all;
   /* border: 1px solid red; */
 }
 body {
