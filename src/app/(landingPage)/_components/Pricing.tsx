@@ -83,7 +83,7 @@ const Pricing: React.FC<PricingProps> = ({ setIsEmailSignupDialog }) => {
   return (
     <div id="Pricing" className="globalPadding flex items-center justify-center flex-col gap-16">
       <div className="w-full md:w-7/12 flex items-center justify-center flex-col gap-5">
-        <h3 className="gradientText text-2xl md:text-4xl font-semibold !z-20">
+        <h3 className="gradientText text-2xl md:text-4xl !z-20">
           Choose Your Plan
         </h3>
       </div>
@@ -112,7 +112,7 @@ const Pricing: React.FC<PricingProps> = ({ setIsEmailSignupDialog }) => {
             <span className="bg-primary px-5 py-2 text-xs rounded-full">
               {data.name}
             </span>
-            <h3 className="gradientText text-2xl md:text-4xl font-semibold">
+            <h3 className="gradientText text-2xl md:text-4xl">
               {data.price}
             </h3>
             <p>{data.description}</p>

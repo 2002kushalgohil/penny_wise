@@ -22,7 +22,7 @@ function Hero({ setIsEmailSignupDialog }: HeroProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 content-center h-screen w-screen globalPadding">
         {/* Text content */}
         <div className="grid gap-5">
-          <h1 className="gradientText text-3xl md:text-5xl font-bold z-10">Take Control of Your Finances with Penny Wise</h1>
+          <h1 className="gradientText text-3xl md:text-5xl z-10">Take Control of Your Finances with Penny Wise</h1>
           <p className="z-10">Effortlessly Manage Your Budget and Take Strides Toward Achieving Financial Freedom</p>
           
           {/* Button */}

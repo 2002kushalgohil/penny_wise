@@ -42,7 +42,7 @@ function Info() {
 
         {/* Text section */}
         <div className="gap-5 flex items-start justify-center flex-col">
-          <h3 className="gradientText text-2xl md:text-4xl font-semibold !z-20">
+          <h3 className="gradientText text-2xl md:text-4xl !z-20">
             Penny Wise: Budget-Friendly, Speedy, Secure
           </h3>
           <p className="!z-20">

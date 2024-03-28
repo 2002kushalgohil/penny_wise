@@ -78,7 +78,7 @@ const Features: React.FC<FeaturesProps> = () => {
           />
         </div>
         <div>
-          <h4 className="text-2xl font-semibold">{feature.title}</h4>
+          <h4 className="text-2xl">{feature.title}</h4>
           <p>{feature.description}</p>
         </div>
       </div>
@@ -112,7 +112,7 @@ const Features: React.FC<FeaturesProps> = () => {
 
       {/* Subtitle */}
       <div className="w-full md:w-7/12 text-left md:text-center">
-        <h3 className="gradientText text-2xl md:text-4xl font-semibold !z-20">
+        <h3 className="gradientText text-2xl md:text-4xl !z-20">
           Discover financial control with personalised insights
         </h3>
       </div>

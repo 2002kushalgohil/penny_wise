@@ -56,7 +56,7 @@ function Contact() {
   
   return (
     <div id="Contact-Us" className="globalPadding">
-      <h2 className="gradientText text-2xl md:text-4xl font-semibold">
+      <h2 className="gradientText text-2xl md:text-4xl">
         Get in touch
       </h2>
   

@@ -13,7 +13,7 @@ function HeadLine({ title }: HeadLineProps) {
       <img src="assets/landing_page/headline.svg" alt="Headline" className="!z-20" />
       
       {/* Headline title */}
-      <h3 className="text-primary font-bold !z-20">{title}</h3>
+      <h3 className="text-primary !z-20">{title}</h3>
     </div>
   );
 }

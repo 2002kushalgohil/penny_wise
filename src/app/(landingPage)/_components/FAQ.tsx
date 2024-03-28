@@ -59,7 +59,7 @@ function FAQ() {
         {/* FAQ headline */}
         <HeadLine title="FAQs" />
 
-        <h3 className="gradientText text-2xl md:text-4xl font-semibold text-center !z-20">
+        <h3 className="gradientText text-2xl md:text-4xl text-center !z-20">
           We&apos;ve got the answers
         </h3>
 

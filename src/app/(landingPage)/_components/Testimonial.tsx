@@ -59,7 +59,7 @@ function Testimonial() {
     <div className="globalPadding relative">
       <div className="h-80 w-80 rounded-full bg-secondary blur-[200px] absolute -top-40 -left-40" />
       <div className="h-80 w-80 rounded-full bg-primary blur-[250px] absolute bottom-0 left-2/6" />
-      <h2 className="gradientText text-2xl md:text-4xl font-semibold !z-20">
+      <h2 className="gradientText text-2xl md:text-4xl !z-20">
         What our users say ?
       </h2>
       <Swiper
