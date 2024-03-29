@@ -54,7 +54,7 @@ export default async function forgotPasswordHandler(
     await user.save({ validateBeforeSave: true });
 
     // Construct reset password URL
-    const resetUrl: string = `${WEBSITE_URL}/resetpassword?token=${forgotToken}`;
+    const resetUrl: string = `${WEBSITE_URL}/resetpassword/${forgotToken}`;
 
     // Send reset password email
     await sendResetPasswordEmail(user.email, resetUrl);

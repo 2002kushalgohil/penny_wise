@@ -190,7 +190,7 @@ export const resetPassword = (url: string): string => {
                                                                       class="mcnButtonContentContainer" style="border-collapse: collapse; mso-table-lspace: 0;
                                                          mso-table-rspace: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;
                                                          border-collapse: separate !important;border-radius: 48px;background-color:
-                                                         #275bc3;">
+                                                         #57CC99;">
                                                                       <tbody>
                                                                           <tr>
                                                                               <td align="center" class="mcnButtonContent"

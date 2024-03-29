@@ -3,25 +3,27 @@ import { useState, useEffect } from "react";
 import { Link2Icon, MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import EmailSignupForm from "./utils/EmailSignupForm";
+import Logo from "@/components/utils/Logo";
 
 interface FooterProps {
   setIsEmailSignupDialog: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Footer: React.FC<FooterProps> = ({ setIsEmailSignupDialog }) => {
-  // Initialize currentTheme state to "light"
+  // Initialize currentTheme state based on body class
   const [currentTheme, setCurrentTheme] = useState<string>("light");
 
-  // Function to toggle between light and dark themes
+  // Function to toggle between light and dark themes and update body class
   const onThemeSwitcher = () => {
     const newTheme = currentTheme === "light" ? "dark" : "light";
     setCurrentTheme(newTheme);
+    document.body.className = newTheme;
   };
 
-  // Effect to apply the selected theme to the body
   useEffect(() => {
-    document.body.classList.toggle("dark", currentTheme === "dark");
-  }, [currentTheme]);
+    const bodyClassName = document.body.className;
+    setCurrentTheme(bodyClassName)
+  }, []);
 
   return (
     <div className="bg-secondary backdrop-blur-lg backdrop-filter globalPadding !py-6 md:!py-8 relative">
@@ -32,11 +34,7 @@ const Footer: React.FC<FooterProps> = ({ setIsEmailSignupDialog }) => {
 
         {/* Logo and tagline */}
         <div className="flex flex-col items-start gap-5">
-          <div className="flex items-center justify-start gap-5">
-            <img src="logos/LogoBlack.svg" className="w-14 dark:hidden" />
-            <img src="logos/LogoWhite.svg" className="w-14 hidden dark:flex" />
-            <h4 className="text-md">PENNY WISE</h4>
-          </div>
+          <Logo />
           <p>Take Control of Your Finances with Penny Wise</p>
         </div>
 
@@ -79,7 +77,6 @@ const Footer: React.FC<FooterProps> = ({ setIsEmailSignupDialog }) => {
             <Tabs
               onValueChange={onThemeSwitcher}
               value={currentTheme}
-              defaultValue="light"
               className="!z-20"
             >
               <TabsList className="!z-20 bg-background">
@@ -97,7 +94,7 @@ const Footer: React.FC<FooterProps> = ({ setIsEmailSignupDialog }) => {
 
       {/* Designed and Developed By section */}
       <div className="border-t-[1px] w-full border-border pt-6 mt-8 p-0 text-center flex items-center flex-wrap justify-center gap-3">
-        Designed and Developed By:
+        Designed and Developed By :
         <a
           className="hover:text-primary cursor-pointer hover:underline flex items-center justify-center gap-1"
           href="https://www.kushalgohil.com/"

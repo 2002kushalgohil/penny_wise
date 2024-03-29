@@ -35,7 +35,12 @@ function Info() {
         <div className="flex items-center justify-center">
           <img
             src="assets/landing_page/info.png"
-            className="w-full"
+            className="w-full hidden dark:block"
+            alt="Laptop"
+          />
+          <img
+            src="assets/landing_page/Info_Black.png"
+            className="w-full block dark:hidden"
             alt="Laptop"
           />
         </div>

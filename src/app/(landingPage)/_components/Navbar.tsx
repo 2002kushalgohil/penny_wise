@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Cross1Icon, HamburgerMenuIcon } from '@radix-ui/react-icons';
-import React from 'react';
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Cross1Icon, HamburgerMenuIcon } from "@radix-ui/react-icons";
+import React from "react";
+import Logo from "@/components/utils/Logo";
 
 // Function to generate navbar links
 const generateNavbarLink = (
@@ -13,7 +14,7 @@ const generateNavbarLink = (
     <a
       href={`#${label}`}
       className={`opacity-70 hover:opacity-100 hover:underline hover:!text-primary transition-all cursor-pointer ${
-        isMobile && 'text-2xl mb-5'
+        isMobile && "text-2xl mb-5"
       }`}
       onClick={() => {
         setIsFullNav(false);
@@ -25,7 +26,9 @@ const generateNavbarLink = (
 };
 
 // Navbar component
-const Navbar: React.FC<{ setIsEmailSignupDialog: React.Dispatch<React.SetStateAction<boolean>> }> = ({ setIsEmailSignupDialog }) => {
+const Navbar: React.FC<{
+  setIsEmailSignupDialog: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ setIsEmailSignupDialog }) => {
   const [isFullNav, setIsFullNav] = useState<boolean>(false);
   const [scrollPosition, setScrollPosition] = useState<number>(0);
 
@@ -36,7 +39,7 @@ const Navbar: React.FC<{ setIsEmailSignupDialog: React.Dispatch<React.SetStateAc
 
   // Effect to handle overflow based on navbar state
   useEffect(() => {
-    document.body.style.overflow = isFullNav ? 'hidden' : '';
+    document.body.style.overflow = isFullNav ? "hidden" : "";
   }, [isFullNav]);
 
   // Effect to update scroll position
@@ -45,10 +48,10 @@ const Navbar: React.FC<{ setIsEmailSignupDialog: React.Dispatch<React.SetStateAc
       setScrollPosition(window.scrollY);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -56,58 +59,66 @@ const Navbar: React.FC<{ setIsEmailSignupDialog: React.Dispatch<React.SetStateAc
     <>
       <div
         className={`globalPadding fixed top-0 left-0 w-full !py-5 z-50 flex items-center justify-between gap-10 transition-all duration-200 ${
-          scrollPosition > 10 ? 'backdrop-blur-lg' : ''
+          scrollPosition > 10 ? "backdrop-blur-lg" : ""
         }`}
       >
-        <a href="#Home" className="flex items-center justify-start cursor-pointer gap-5">
-          <img src="logos/LogoBlack.svg" className="w-14 dark:hidden" alt="Logo" />
-          <img src="logos/LogoWhite.svg" className="w-14 hidden dark:flex" alt="Logo" />
-          <h4 className="text-md mr-10 hover:text-primary transition-all">PENNY WISE</h4>
+        <a href="#Home">
+          <Logo />
         </a>
         <div className="hidden lg:flex items-center justify-start gap-5">
           {/* Generate navbar links */}
-          {generateNavbarLink('Home', false, setIsFullNav)}
-          {generateNavbarLink('About', false, setIsFullNav)}
-          {generateNavbarLink('Features', false, setIsFullNav)}
-          {generateNavbarLink('Pricing', false, setIsFullNav)}
-          {generateNavbarLink('FAQs', false, setIsFullNav)}
-          {generateNavbarLink('Contact-Us', false, setIsFullNav)}
+          {generateNavbarLink("Home", false, setIsFullNav)}
+          {generateNavbarLink("About", false, setIsFullNav)}
+          {generateNavbarLink("Features", false, setIsFullNav)}
+          {generateNavbarLink("Pricing", false, setIsFullNav)}
+          {generateNavbarLink("FAQs", false, setIsFullNav)}
+          {generateNavbarLink("Contact-Us", false, setIsFullNav)}
         </div>
-        <Button onClick={() => setIsEmailSignupDialog(true)} className="hidden lg:flex" size="lg">
+        <Button
+          onClick={() => setIsEmailSignupDialog(true)}
+          className="hidden lg:flex"
+          size="lg"
+        >
           JOIN THE WAITLIST
         </Button>
-        <Button onClick={toggleNavbar} variant="ghost" className="flex lg:hidden">
+        <Button
+          onClick={toggleNavbar}
+          variant="ghost"
+          className="flex lg:hidden"
+        >
           {isFullNav ? <Cross1Icon /> : <HamburgerMenuIcon />}
         </Button>
       </div>
       <div
         className={`globalPadding flex fixed top-0 right-0 !py-5 h-screen w-full backdrop-blur-lg backdrop-filter lg:hidden flex-col items-center z-50 ${
-          isFullNav ? 'transform translate-x-0' : 'transform translate-x-full'
+          isFullNav ? "transform translate-x-0" : "transform translate-x-full"
         } `}
-        style={{ transition: 'transform 0.3s ease-in-out' }}
+        style={{ transition: "transform 0.3s ease-in-out" }}
       >
         <div className="w-full flex items-center justify-between">
-          <a href="#home" className="flex items-center justify-start cursor-pointer gap-5">
-            <img src="logos/LogoBlack.svg" className="w-14 dark:hidden" alt="Logo" />
-            <img src="logos/LogoWhite.svg" className="w-14 hidden dark:flex" alt="Logo" />
-            <h4 className=" text-md mr-10 hover:text-primary transition-all">
-              PENNY WISE
-            </h4>
+          <a
+            href="#home"
+          >
+          <Logo />
           </a>
 
-          <Button onClick={toggleNavbar} variant="ghost" className="flex lg:hidden">
+          <Button
+            onClick={toggleNavbar}
+            variant="ghost"
+            className="flex lg:hidden"
+          >
             <Cross1Icon />
           </Button>
         </div>
 
         <div className="flex items-center justify-start flex-col gap-5 mt-20">
           {/* Generate navbar links for mobile */}
-          {generateNavbarLink('Home', true, setIsFullNav)}
-          {generateNavbarLink('About', true, setIsFullNav)}
-          {generateNavbarLink('Features', true, setIsFullNav)}
-          {generateNavbarLink('Pricing', true, setIsFullNav)}
-          {generateNavbarLink('FAQs', true, setIsFullNav)}
-          {generateNavbarLink('Contact-Us', true, setIsFullNav)}
+          {generateNavbarLink("Home", true, setIsFullNav)}
+          {generateNavbarLink("About", true, setIsFullNav)}
+          {generateNavbarLink("Features", true, setIsFullNav)}
+          {generateNavbarLink("Pricing", true, setIsFullNav)}
+          {generateNavbarLink("FAQs", true, setIsFullNav)}
+          {generateNavbarLink("Contact-Us", true, setIsFullNav)}
         </div>
       </div>
     </>

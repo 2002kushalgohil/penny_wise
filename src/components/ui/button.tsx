@@ -52,7 +52,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={loading} // Disable the button when loading
         {...props}
       >
-        {loading ? <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />:null}
+        <ReloadIcon className={`mr-2 h-4 w-4 animate-spin ${loading ?"flex":"hidden"}`} />
         {props.children}
       </Comp>
     )
