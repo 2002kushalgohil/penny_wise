@@ -73,7 +73,6 @@ function Contact() {
                       <FormLabel htmlFor="name">NAME</FormLabel>
                       <FormControl>
                         <Input
-                          className="p-7"
                           id="name"
                           placeholder="Full Name"
                           {...field}
@@ -91,7 +90,6 @@ function Contact() {
                       <FormLabel htmlFor="email">EMAIL</FormLabel>
                       <FormControl>
                         <Input
-                          className="p-7"
                           id="email"
                           placeholder="email@example.com"
                           {...field}
@@ -111,7 +109,6 @@ function Contact() {
                       <FormLabel htmlFor="company">COMPANY</FormLabel>
                       <FormControl>
                         <Input
-                          className="p-7"
                           id="company"
                           placeholder="Company Name"
                           {...field}
@@ -129,7 +126,6 @@ function Contact() {
                       <FormLabel htmlFor="subject">SUBJECT</FormLabel>
                       <FormControl>
                         <Input
-                          className="p-7"
                           id="subject"
                           placeholder="How can we help?"
                           {...field}
@@ -148,7 +144,6 @@ function Contact() {
                     <FormLabel htmlFor="message">MESSAGE</FormLabel>
                     <FormControl>
                       <Textarea
-                        className="p-7"
                         id="message"
                         rows={5}
                         placeholder="Your Message"
