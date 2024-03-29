@@ -113,14 +113,14 @@ function LoginPage() {
           />
           {/* Forgot password link */}
           <div className="mt-5 text-right underline">
-            <p
-              className="!text-white cursor-pointer"
+            <h4
+              className="cursor-pointer"
               onClick={() => {
                 setIsForgotPasswordDialog(true);
               }}
             >
               Forgot Password
-            </p>
+            </h4>
           </div>
           {/* Login button */}
           <Button loading={isLoading} type="submit" size="lg">
