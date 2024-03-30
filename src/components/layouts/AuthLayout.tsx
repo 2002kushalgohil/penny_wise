@@ -10,10 +10,10 @@ interface LayoutProps {
 // AuthLayout component
 const AuthLayout: React.FC<LayoutProps> = ({ children }: LayoutProps) => {
   return (
-    <div className="dots h-full">
-      <div className="globalPadding relative h-full grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-10">
+    <div className="dots h-full w-full flex items-center justify-center overflow-hidden">
+      <div className="globalPadding relative grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-10 w-full max-w-[2000px] h-full max-h-[1000px] bg-primary-foreground dark:bg-muted rounded-none 2xl:rounded-3xl">
         {/* Logo and content */}
-        <div className="flex items-start justify-center flex-col relative">
+        <div className="flex items-start justify-center flex-col relative h-full overflow-hidden px-1">
           {/* Logo */}
           <div className="mb-5 md:mb-10 absolute top-0 left-0">
             <Logo />
@@ -26,14 +26,15 @@ const AuthLayout: React.FC<LayoutProps> = ({ children }: LayoutProps) => {
         <div className="h-80 w-80 rounded-full bg-primary blur-[250px] absolute top-1/2 left-1/4" />
 
         {/* Image */}
-        <div className="bg-primary rounded-lg hidden md:flex items-center justify-center p-10">
+        <div className="bg-primary rounded-2xl hidden md:flex items-center justify-center p-10 h-full overflow-hidden">
           <img
             src="/assets/landing_page/Info_Black.png"
-            className="w-full"
+            className="w-full p-10 2xl:p-20"
             alt="Information"
           />
         </div>
       </div>
+
       {/* Render toaster component */}
       <Toaster />
     </div>
