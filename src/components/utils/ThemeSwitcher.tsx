@@ -33,7 +33,7 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ isCustomBg }) => {
       className="!z-20"
     >
       {/* Render TabsList with conditional background color */}
-      <TabsList className={`!z-20 ${isCustomBg && "bg-background"}`}>
+      <TabsList className={`!z-20 ${isCustomBg && "bg-background"} rounded-full px-2`}>
         {/* Render TabsTrigger for light theme */}
         <TabsTrigger value="light" className="!z-20">
           <SunIcon />
