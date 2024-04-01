@@ -1,4 +1,4 @@
-"use client"
+"use client";
 // Import necessary dependencies
 import { useState } from "react";
 import axios from "axios";
@@ -18,17 +18,22 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useRouter } from 'next/navigation'
 
 // Define form schema using Zod
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }),
-  password: z.string().min(6, { message: "Password must be at least 6 characters." }),
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters." }),
 });
 
 // LoginPage component
 function LoginPage() {
+  const router = useRouter()
   // State for managing the forgot password dialog
-  const [isForgotPasswordDialog, setIsForgotPasswordDialog] = useState<boolean>(false);
+  const [isForgotPasswordDialog, setIsForgotPasswordDialog] =
+    useState<boolean>(false);
 
   // State for managing loading state
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -53,7 +58,12 @@ function LoginPage() {
         toast.success("Login Successful", {
           description: response?.data?.message,
         });
-        // Redirect or perform other actions upon successful login
+        
+        const { accessToken, refreshToken } = response?.data;
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+        router.push("/dashboard")
+
       } else {
         // Display error toast if login fails
         toast.error("Login Failed", {
@@ -61,6 +71,8 @@ function LoginPage() {
         });
       }
     } catch (error) {
+      console.log(error);
+      
       // Handle errors from server or network failures
       if (error.response && error.response.data) {
         const { data } = error.response;
@@ -105,7 +117,12 @@ function LoginPage() {
               <FormItem>
                 <FormLabel htmlFor="password">Password</FormLabel>
                 <FormControl>
-                  <Input id="password" type="password" placeholder="Enter Password" {...field} />
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="Enter Password"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

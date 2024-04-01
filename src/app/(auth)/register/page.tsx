@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { toast } from "sonner";
 import Link from "next/link";
+import { useRouter } from 'next/navigation'
 
 // Define form schema using Zod
 const formSchema = z.object({
@@ -30,6 +31,7 @@ const formSchema = z.object({
 
 // Page component
 function Page() {
+  const router = useRouter()
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -52,6 +54,12 @@ function Page() {
         toast.success("Registration Successful", {
           description: response?.data?.message,
         });
+
+        const { accessToken, refreshToken } = response?.data;
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+        router.push("/dashboard")
+
       } else {
         toast.error("Registration Failed", {
           description: response?.data?.error,
