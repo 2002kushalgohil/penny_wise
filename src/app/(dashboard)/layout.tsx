@@ -202,7 +202,9 @@ function Layout({ children }: LayoutProps): JSX.Element {
             </DropdownMenu>
           </header>
           {/* Main content */}
-          <div className="p-4 lg:p-6">{children}</div>
+          <div className=" mx-auto w-full max-w-[2200px]">
+            <div className="p-4 lg:p-6">{children}</div>
+          </div>
         </div>
       </div>
     </ProtectedRoute>
