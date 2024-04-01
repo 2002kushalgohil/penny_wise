@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { toast } from "sonner";
 import Link from "next/link";
+import { useRouter } from 'next/navigation'
 
 // Define form schema using Zod
 const formSchema = z.object({
@@ -25,6 +26,7 @@ const formSchema = z.object({
 
 // ResetPassword component
 function ResetPassword({ params }) {
+  const router = useRouter()
   const [isLoading, setIsLoading] = useState(false);
 
   // React Hook Form setup
@@ -48,7 +50,13 @@ function ResetPassword({ params }) {
         toast.success("Password Reset Successful", {
           description: response?.data?.message,
         });
-        // Redirect to login page or any other page
+
+
+        const { accessToken, refreshToken } = response?.data;
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+
+        router.push("/dashboard")
       } else {
         toast.error("Password Reset Failed", {
           description: response?.data?.error,

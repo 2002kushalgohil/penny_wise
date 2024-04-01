@@ -1,30 +1,13 @@
-"use client";
-import { useState, useEffect } from "react";
-import { Link2Icon, MoonIcon, SunIcon } from "@radix-ui/react-icons";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Link2Icon } from "@radix-ui/react-icons";
 import EmailSignupForm from "./utils/EmailSignupForm";
 import Logo from "@/components/utils/Logo";
+import ThemeSwitcher from "@/components/utils/ThemeSwitcher";
 
 interface FooterProps {
   setIsEmailSignupDialog: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Footer: React.FC<FooterProps> = ({ setIsEmailSignupDialog }) => {
-  // Initialize currentTheme state based on body class
-  const [currentTheme, setCurrentTheme] = useState<string>("light");
-
-  // Function to toggle between light and dark themes and update body class
-  const onThemeSwitcher = () => {
-    const newTheme = currentTheme === "light" ? "dark" : "light";
-    setCurrentTheme(newTheme);
-    document.body.className = newTheme;
-  };
-
-  useEffect(() => {
-    const bodyClassName = document.body.className;
-    setCurrentTheme(bodyClassName)
-  }, []);
-
   return (
     <div className="bg-secondary backdrop-blur-lg backdrop-filter globalPadding !py-6 md:!py-8 relative">
       {/* Grid layout for footer */}
@@ -74,20 +57,7 @@ const Footer: React.FC<FooterProps> = ({ setIsEmailSignupDialog }) => {
             />
           </div>
           <div>
-            <Tabs
-              onValueChange={onThemeSwitcher}
-              value={currentTheme}
-              className="!z-20"
-            >
-              <TabsList className="!z-20 bg-background">
-                <TabsTrigger value="light" className="!z-20">
-                  <SunIcon />
-                </TabsTrigger>
-                <TabsTrigger value="dark" className="!z-20">
-                  <MoonIcon />
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
+            <ThemeSwitcher isCustomBg={true}/>
           </div>
         </div>
       </div>

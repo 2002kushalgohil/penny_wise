@@ -54,7 +54,7 @@
   --border: 240 5.9% 90%;
   --input: 240 5.9% 90%;
   --ring: 157 77% 60%; /* Use the primary color for ring as well */
-  --radius: 0.7rem;
+  --radius: 0.8rem;
   --description-color: #7a7a7a;
 }
 
@@ -78,13 +78,13 @@
   --border: 240 3.7% 15.9%;
   --input: 240 3.7% 15.9%;
   --ring: 157 71.8% 50%; /* Adjusted darker shade of primary color for ring */
-  --radius: 0.7rem;
+  --radius: 0.8rem;
   --description-color: #7a7a7a;
 }
 
 * {
   @apply border-border;
-  box-sizing: border-box
+  box-sizing: border-box;
   /* border: 1px solid red; */
 }
 body {
@@ -159,4 +159,25 @@ p {
   opacity: 0.5;
   scale: 0.9;
   transition: all 0.5s ease-in-out !important;
+}
+
+/* ------------------- Custom Scrollbar -------------- */
+.customScroll::-webkit-scrollbar {
+  @apply w-1 rounded-full;
+}
+
+.customScroll{
+  @apply pr-3;
+}
+
+.customScroll::-webkit-scrollbar-track {
+  @apply bg-secondary rounded-full;
+}
+
+.customScroll::-webkit-scrollbar-thumb {
+  @apply bg-primary rounded-full cursor-pointer;
+}
+
+.customScroll::-webkit-scrollbar-thumb:hover {
+  @apply bg-primary/80;
 }
