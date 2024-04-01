@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import {
   Bell,
   CreditCard,
@@ -45,38 +45,39 @@ interface LayoutProps {
 
 function Layout({ children }: LayoutProps): JSX.Element {
   const router = useRouter();
+  const pathname = usePathname();
 
   // Define menu items with icons and tooltips
   const menuItems: MenuItem[] = [
     {
       icon: <Home className="h-5 w-5" />,
-      label: "Dashboard",
+      label: "/dashboard",
       tooltip: "Dashboard",
     },
     {
       icon: <CreditCard className="h-5 w-5" />,
-      label: "Transactions",
+      label: "/transactions",
       tooltip: "Transactions",
     },
     {
       icon: <DollarSign className="h-5 w-5" />,
-      label: "Budgets",
+      label: "/budgets",
       tooltip: "Budgets",
     },
     { icon: <Trophy className="h-5 w-5" />, label: "Goals", tooltip: "Goals" },
     {
       icon: <Bell className="h-5 w-5" />,
-      label: "Reminders",
+      label: "/reminders",
       tooltip: "Reminders",
     },
     {
       icon: <DollarSign className="h-5 w-5" />,
-      label: "Debts",
+      label: "/debts",
       tooltip: "Debts",
     },
     {
       icon: <Settings className="h-5 w-5" />,
-      label: "Settings",
+      label: "/settings",
       tooltip: "Settings",
     },
   ];
@@ -101,7 +102,10 @@ function Layout({ children }: LayoutProps): JSX.Element {
                   <TooltipTrigger asChild>
                     <Link
                       href={item.label}
-                      className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                      className={`flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8 ${
+                        item.label.includes(pathname ?? "") &&
+                        "bg-primary text-background hover:text-background"
+                      }`}
                     >
                       {item.icon}
                       <span className="sr-only">{item.label}</span>
@@ -148,10 +152,13 @@ function Layout({ children }: LayoutProps): JSX.Element {
                     <Link
                       key={index}
                       href={item.label}
-                      className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                      className={`flex items-center gap-4 px-4 py-2.5 text-muted-foreground hover:text-foreground ${
+                        item.label.includes(pathname ?? "") &&
+                        "bg-primary text-background hover:text-background rounded-sm"
+                      }`}
                     >
                       {item.icon}
-                      {item.label}
+                      {item.tooltip}
                     </Link>
                   ))}
                 </nav>
@@ -195,7 +202,9 @@ function Layout({ children }: LayoutProps): JSX.Element {
             </DropdownMenu>
           </header>
           {/* Main content */}
-          <div className="p-4 lg:p-6">{children}</div>
+          <div className=" mx-auto w-full max-w-[2200px]">
+            <div className="p-4 lg:p-6">{children}</div>
+          </div>
         </div>
       </div>
     </ProtectedRoute>

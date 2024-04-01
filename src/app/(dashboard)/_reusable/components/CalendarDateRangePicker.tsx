@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { HTMLAttributes, useState } from "react";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { addDays, format } from "date-fns";
@@ -37,7 +37,7 @@ export function CalendarDateRangePicker({
             id="date"
             variant={"outline"}
             className={cn(
-              "w-[260px] justify-start text-left font-normal",
+              "w-[260px] justify-start text-left font-normal bg-muted",
               !date && "text-muted-foreground"
             )}
           >
