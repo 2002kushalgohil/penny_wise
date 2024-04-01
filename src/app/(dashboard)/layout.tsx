@@ -13,7 +13,8 @@ import {
   Trophy,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {b 
+import {
+  DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
