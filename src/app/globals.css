@@ -54,7 +54,7 @@
   --border: 240 5.9% 90%;
   --input: 240 5.9% 90%;
   --ring: 157 77% 60%; /* Use the primary color for ring as well */
-  --radius: 0.8rem;
+  --radius: 0.6rem;
   --description-color: #7a7a7a;
 }
 
@@ -78,7 +78,7 @@
   --border: 240 3.7% 15.9%;
   --input: 240 3.7% 15.9%;
   --ring: 157 71.8% 50%; /* Adjusted darker shade of primary color for ring */
-  --radius: 0.8rem;
+  --radius: 0.6rem;
   --description-color: #7a7a7a;
 }
 

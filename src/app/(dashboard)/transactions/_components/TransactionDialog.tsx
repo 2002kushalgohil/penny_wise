@@ -1,12 +1,24 @@
-// Import necessary dependencies
-import React from "react";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import IncomeForm from "./IncomeForm";
 
@@ -22,18 +34,12 @@ function TransactionDialog({
   isCreateTransaction,
 }: TransactionDialogProps) {
   return (
-    <Dialog
-      open={isCreateTransaction}
+    <Sheet
       onOpenChange={(e) => setIsCreateTransaction(e)}
+      open={isCreateTransaction}
     >
-      <DialogContent className="max-w-5xl lg:max-w-screen-lg overflow-y-scroll max-h-screen customScroll">
-        <DialogHeader>
-          <DialogTitle className="text-left">Add a transaction</DialogTitle>
-          <DialogDescription>
-            Enter the details of your transaction below.
-          </DialogDescription>
-        </DialogHeader>
-        <Tabs className="w-full">
+      <SheetContent>
+        <Tabs defaultValue="income" className="mt-5">
           <TabsList className="w-full">
             <TabsTrigger value="income" className="w-1/2">
               Income
@@ -46,8 +52,8 @@ function TransactionDialog({
             <IncomeForm />
           </TabsContent>
         </Tabs>
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
   );
 }
 
