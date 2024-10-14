@@ -20,14 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
-import { cn } from "@/lib/utils";
-import { CalendarIcon } from "@radix-ui/react-icons";
 
 const incomeFormSchema = z
   .object({
@@ -36,8 +29,12 @@ const incomeFormSchema = z
       .string()
       .min(2, { message: "Source must be at least 2 characters." }),
     amount: z
-      .number()
-      .positive({ message: "Amount must be a positive number." }),
+      .string()
+      .min(1, { message: "Amount is required." })
+      .transform((val) => parseInt(val, 10))
+      .refine((val) => val > 0, {
+        message: "Amount must be a positive integer.",
+      }),
     date: z.date(),
     note: z.string().optional(),
     invoiceUrl: z.string().url().optional(),
@@ -49,7 +46,6 @@ const incomeFormSchema = z
   });
 
 function IncomeForm() {
-  const [date, setDate] = useState(new Date(2023, 0, 20));
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof incomeFormSchema>>({
     resolver: zodResolver(incomeFormSchema),
@@ -69,9 +65,7 @@ function IncomeForm() {
   ): Promise<void> {
     setIsLoading(true);
     try {
-      // Perform submission logic here, e.g., axios post request
       console.log("Form values:", values);
-      // Reset form after successful submission
       form.reset();
     } catch (error) {
       console.error("Error:", error);
@@ -83,7 +77,7 @@ function IncomeForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="grid grid-cols-1 md:grid-cols-2 gap-x-8 space-y-3 md:space-y-5"
+        className="grid space-y-3 md:space-y-5"
       >
         <FormField
           control={form.control}
@@ -149,32 +143,20 @@ function IncomeForm() {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="date"
           render={({ field }) => {
-            console.log(field);
-            
             return (
               <FormItem>
                 <FormLabel htmlFor="date">Date</FormLabel>
                 <FormControl>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        size="lg"
-                        id="date"
-                        variant={"outline"}
-                        className="justify-start w-full bg-secondary hover:bg-secondary/80 pl-5"
-                      >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        <span>Pick a date</span>
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar {...field} />
-                    </PopoverContent>
-                  </Popover>
+                  <Calendar
+                    {...field}
+                    selected={field.value}
+                    onDayClick={field.onChange}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
