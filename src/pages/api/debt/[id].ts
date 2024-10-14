@@ -14,15 +14,12 @@ const debtHandler = withAuth(async function (
   req: AuthenticatedNextApiRequest,
   res: NextApiResponse
 ) {
-  // Extract necessary information from the request
   const { method } = req;
   const userId = req.user?._id;
   const { id } = req.query;
 
-  // Ensure user is authorized to access the debt
   const isAllowed = req.user?.debts.find((debtId) => debtId.toString() === id);
 
-  // Check if user is allowed to access the debt
   if (!isAllowed) {
     return res.status(401).json({ success: false, error: "Debt Not Found" });
   }
@@ -57,20 +54,16 @@ async function handleGetDebt(
   res: NextApiResponse
 ) {
   try {
-    // Find user by ID and populate debt
     const user: UserDocument | null = await User.findById(userId).populate(
       "debts"
     );
 
-    // Return error if user not found
     if (!user) {
       return res.status(404).json({ success: false, error: "User not found" });
     }
 
-    // Find debt in user's debts array
     const debt = user.debts.find((debt) => debt._id.toString() === debtId);
 
-    // Return debt information
     return res.status(200).json({ success: true, debt });
   } catch (error) {
     console.error("Error fetching debt:", error);
@@ -86,7 +79,6 @@ async function handleUpdateDebt(
   res: NextApiResponse
 ) {
   try {
-    // Destructure necessary fields from debtData
     const {
       name,
       balance,
@@ -95,7 +87,6 @@ async function handleUpdateDebt(
       paymentDueDate,
     }: DebtDocument = debtData;
 
-    // Check if required fields are provided
     if (
       !name ||
       !balance ||
@@ -109,20 +100,16 @@ async function handleUpdateDebt(
       });
     }
 
-    // Update the debt and get the updated document
     const updatedDebt = await Debt.findOneAndUpdate({ _id: debtId }, debtData, {
       new: true,
     });
 
-    // Return error if debt not found
     if (!updatedDebt) {
       return res.status(404).json({ success: false, error: "Debt not found" });
     }
 
-    // Return success response with updated debt information
     return res.status(200).json({ success: true, updatedDebt });
   } catch (error) {
-    // Handle any errors occurred during updating debt
     console.error("Error updating debt:", error);
     return res
       .status(500)
@@ -135,18 +122,14 @@ async function handleDeleteDebt(
   res: NextApiResponse
 ) {
   try {
-    // Delete the debt
     const deletedDebt = await Debt.findByIdAndDelete(debtId);
 
-    // Return error if debt not found
     if (!deletedDebt) {
       return res.status(404).json({ success: false, error: "Debt not found" });
     }
 
-    // Remove the debt ID from user's debts array
     await User.updateOne({ debts: debtId }, { $pull: { debts: debtId } });
 
-    // Return success response
     return res
       .status(200)
       .json({ success: true, message: "Debt deleted successfully" });

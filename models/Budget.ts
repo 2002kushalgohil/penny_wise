@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema, Model } from "mongoose";
 
-// Define budget schema
+// Define budget document interface
 export interface BudgetDocument extends Document {
   type: string;
   budget: number;
@@ -8,23 +8,14 @@ export interface BudgetDocument extends Document {
 }
 
 const budgetSchema = new Schema<BudgetDocument>({
-  type: {
-    type: String,
-    required: true,
-  },
-  budget: {
-    type: Number,
-    required: true,
-  },
-  timeSpan: {
-    type: Date,
-    required: true,
-  },
+  type: { type: String, required: true },
+  budget: { type: Number, required: true },
+  timeSpan: { type: Date, required: true },
 });
 
 // Create or retrieve Budget model
-const BudgetModel: Model<BudgetDocument & Document> =
+const BudgetModel: Model<BudgetDocument> =
   mongoose.models.Budget ||
-  mongoose.model<BudgetDocument & Document>("Budget", budgetSchema);
+  mongoose.model<BudgetDocument>("Budget", budgetSchema);
 
 export default BudgetModel;

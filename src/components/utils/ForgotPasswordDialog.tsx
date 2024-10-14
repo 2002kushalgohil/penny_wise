@@ -56,13 +56,14 @@ function ForgotPasswordDialog({
   async function onSubmit(values: z.infer<typeof formSchema>): Promise<void> {
     setIsLoading(true);
     try {
-      let response = await axios.post("/api/user/forgotPassword", values);
+      const response = await axios.post("/api/user/forgotPassword", values);
 
       if (response?.data?.success) {
         toast.success("Forgot Password", {
           description: response?.data?.message,
         });
-        // Redirect or do something else upon successful login
+        // Close the dialog upon success
+        setIsForgotPasswordDialog(false);
       } else {
         toast.error("Forgot Password", {
           description: response?.data?.error,
@@ -82,7 +83,6 @@ function ForgotPasswordDialog({
       }
     }
     setIsLoading(false);
-    setIsForgotPasswordDialog(false);
   }
 
   return (
@@ -90,7 +90,7 @@ function ForgotPasswordDialog({
       open={isForgotPasswordDialog}
       onOpenChange={(e) => setIsForgotPasswordDialog(e)}
     >
-      <DialogContent className="">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle className="text-left">Forgot Password</DialogTitle>
           <DialogDescription>
@@ -108,14 +108,23 @@ function ForgotPasswordDialog({
                   <FormItem className="w-full !z-20">
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="email@example.com" {...field} />
+                      <Input
+                        placeholder="email@example.com"
+                        {...field}
+                        disabled={isLoading} // Disable input while loading
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-            <Button type="submit" className="!z-20" loading={isLoading}>
+            <Button
+              type="submit"
+              className="!z-20"
+              loading={isLoading}
+              disabled={isLoading}
+            >
               Send Reset Link
             </Button>
           </form>

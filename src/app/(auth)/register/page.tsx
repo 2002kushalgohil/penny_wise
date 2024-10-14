@@ -16,7 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { toast } from "sonner";
 import Link from "next/link";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 
 // Define form schema using Zod
 const formSchema = z.object({
@@ -31,7 +31,7 @@ const formSchema = z.object({
 
 // Page component
 function Page() {
-  const router = useRouter()
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -43,13 +43,13 @@ function Page() {
   });
 
   // Form submit handler
-  async function onSubmit(values: z.infer<typeof formSchema>): Promise<void> {
+  const onSubmit = async (
+    values: z.infer<typeof formSchema>
+  ): Promise<void> => {
     setIsLoading(true);
     try {
-      // Send form data to server
-      let response = await axios.post("/api/user/register", values);
+      const response = await axios.post("/api/user/register", values);
 
-      // Handle response
       if (response?.data?.success) {
         toast.success("Registration Successful", {
           description: response?.data?.message,
@@ -58,29 +58,19 @@ function Page() {
         const { accessToken, refreshToken } = response?.data;
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
-        router.push("/dashboard")
-
+        router.push("/dashboard");
       } else {
         toast.error("Registration Failed", {
-          description: response?.data?.error,
+          description: response?.data?.error || "An unknown error occurred.",
         });
       }
     } catch (error) {
-      // Handle error
-      if (error.response && error.response.data) {
-        const { data } = error.response;
-        toast.error("Registration Failed", {
-          description: data.error || "An error occurred.",
-        });
-      } else {
-        console.error("Error:", error.message);
-        toast.error("Registration Failed", {
-          description: "An error occurred.",
-        });
-      }
+      const errorMessage = error.response?.data?.error || "An error occurred.";
+      toast.error("Registration Failed", { description: errorMessage });
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
-  }
+  };
 
   return (
     <div className="w-full !z-20">
@@ -99,6 +89,7 @@ function Page() {
                     id="username"
                     placeholder="Enter Username"
                     {...field}
+                    aria-required="true"
                   />
                 </FormControl>
                 <FormMessage />
@@ -113,7 +104,12 @@ function Page() {
               <FormItem>
                 <FormLabel htmlFor="email">Email</FormLabel>
                 <FormControl>
-                  <Input id="email" placeholder="Enter Email" {...field} />
+                  <Input
+                    id="email"
+                    placeholder="Enter Email"
+                    {...field}
+                    aria-required="true"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -132,6 +128,7 @@ function Page() {
                     type="password"
                     placeholder="Enter Password"
                     {...field}
+                    aria-required="true"
                   />
                 </FormControl>
                 <FormMessage />
@@ -146,7 +143,7 @@ function Page() {
       </Form>
       {/* Link to login page */}
       <div className="mt-5 text-right underline">
-        <Link href="/login">Already have an account</Link>
+        <Link href="/login">Already have an account?</Link>
       </div>
     </div>
   );

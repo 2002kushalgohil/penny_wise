@@ -15,25 +15,46 @@ interface ContactUsRequest {
   message: string;
 }
 
+// Utility function to send error responses
+function sendErrorResponse(
+  res: NextApiResponse,
+  statusCode: number,
+  message: string
+) {
+  return res.status(statusCode).json({ success: false, error: message });
+}
+
+// Validate email format
+function isValidEmail(email: string): boolean {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(email);
+}
+
 export default async function contactUsHandler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   if (req.method !== "POST") {
-    return res
-      .status(405)
-      .json({ success: false, error: "Method not allowed" });
+    return sendErrorResponse(res, 405, "Method not allowed");
   }
 
   try {
-    const { name, email, company, subject, message }: ContactUsRequest =
-      req.body;
+    const {
+      name,
+      email,
+      company,
+      subject,
+      message,
+    }: Partial<ContactUsRequest> = req.body;
 
     // Validate required fields
     if (!name || !email || !company || !subject || !message) {
-      return res
-        .status(400)
-        .json({ success: false, error: "All fields are required" });
+      return sendErrorResponse(res, 400, "All fields are required");
+    }
+
+    // Validate email format
+    if (!isValidEmail(email)) {
+      return sendErrorResponse(res, 400, "Invalid email format");
     }
 
     // Create new contact form submission
@@ -53,11 +74,11 @@ export default async function contactUsHandler(
         </head>
         <body>
           <h2>Contact Form Submission</h2>
-          <p><strong>Name:</strong> ${contactInfo.name}</p>
-          <p><strong>Email:</strong> ${contactInfo.email}</p>
-          <p><strong>Company:</strong> ${contactInfo.company}</p>
-          <p><strong>Subject:</strong> ${contactInfo.subject}</p>
-          <p><strong>Message:</strong> ${contactInfo.message}</p>
+          <p><strong>Name:</strong> ${escapeHTML(contactInfo.name)}</p>
+          <p><strong>Email:</strong> ${escapeHTML(contactInfo.email)}</p>
+          <p><strong>Company:</strong> ${escapeHTML(contactInfo.company)}</p>
+          <p><strong>Subject:</strong> ${escapeHTML(contactInfo.subject)}</p>
+          <p><strong>Message:</strong> ${escapeHTML(contactInfo.message)}</p>
         </body>
       </html>
     `;
@@ -74,10 +95,17 @@ export default async function contactUsHandler(
       message: "Thank you for contacting us! We will contact you soon.",
     });
   } catch (error) {
-    // Handle errors
     console.error("Error while submitting contact form:", error);
-    return res
-      .status(500)
-      .json({ success: false, error: "Internal server error" });
+    return sendErrorResponse(res, 500, "Internal server error");
   }
+}
+
+// Escape HTML function to prevent XSS
+function escapeHTML(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }

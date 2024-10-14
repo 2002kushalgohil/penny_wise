@@ -9,24 +9,20 @@ import {
 } from "../../../../middlewares/auth";
 import User, { UserDocument } from "../../../../models/User";
 
-// Connect to the database
 dbConnect();
 
 const financialGoalHandler = withAuth(async function (
   req: AuthenticatedNextApiRequest,
   res: NextApiResponse
 ) {
-  // Extract necessary information from the request
   const { method } = req;
   const userId = req.user?._id;
   const { id } = req.query;
 
-  // Ensure user is authorized to access the financial goals
   const isAllowed = req.user?.financialGoals.find(
     (goalId) => goalId.toString() === id
   );
 
-  // Check if user is allowed to access the financial goal
   if (!isAllowed) {
     return res
       .status(401)
@@ -63,22 +59,18 @@ async function handleGetFinancialGoal(
   res: NextApiResponse
 ) {
   try {
-    // Find user by ID and populate financial goal
     const user: UserDocument | null = await User.findById(userId).populate(
       "financialGoals"
     );
 
-    // Return error if user not found
     if (!user) {
       return res.status(404).json({ success: false, error: "User not found" });
     }
 
-    // Find financial goal in user's financial goals array
     const financialGoal = user.financialGoals.find(
       (goal) => goal._id.toString() === financialGoalId
     );
 
-    // Return financial goal information
     return res.status(200).json({ success: true, financialGoal });
   } catch (error) {
     console.error("Error fetching financial goal:", error);
@@ -94,11 +86,9 @@ async function handleUpdateFinancialGoal(
   res: NextApiResponse
 ) {
   try {
-    // Destructure necessary fields from financialGoalData
     const { name, targetAmount, targetDate }: FinancialGoalDocument =
       financialGoalData;
 
-    // Check if required fields are provided
     if (!name || !targetAmount || !targetDate) {
       return res.status(400).json({
         success: false,
@@ -107,24 +97,20 @@ async function handleUpdateFinancialGoal(
       });
     }
 
-    // Update the financial goal and get the updated document
     const updatedFinancialGoal = await FinancialGoal.findOneAndUpdate(
       { _id: financialGoalId },
       financialGoalData,
       { new: true }
     );
 
-    // Return error if financial goal not found
     if (!updatedFinancialGoal) {
       return res
         .status(404)
         .json({ success: false, error: "Financial goal not found" });
     }
 
-    // Return success response with updated financial goal information
     return res.status(200).json({ success: true, updatedFinancialGoal });
   } catch (error) {
-    // Handle any errors occurred during updating financial goal
     console.error("Error updating financial goal:", error);
     return res
       .status(500)
@@ -137,25 +123,21 @@ async function handleDeleteFinancialGoal(
   res: NextApiResponse
 ) {
   try {
-    // Delete the financial goal
     const deletedFinancialGoal = await FinancialGoal.findByIdAndDelete(
       financialGoalId
     );
 
-    // Return error if financial goal not found
     if (!deletedFinancialGoal) {
       return res
         .status(404)
         .json({ success: false, error: "Financial goal not found" });
     }
 
-    // Remove the financial goal ID from user's financial goals array
     await User.updateOne(
       { financialGoals: financialGoalId },
       { $pull: { financialGoals: financialGoalId } }
     );
 
-    // Return success response
     return res
       .status(200)
       .json({ success: true, message: "Financial goal deleted successfully" });

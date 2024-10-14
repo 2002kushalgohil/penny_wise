@@ -35,7 +35,6 @@ export default async function refreshTokenHandler(
     const userId: string = decoded.userId;
 
     const existingUser = await User.findById(userId);
-
     if (!existingUser) {
       return res.status(400).json({ success: false, error: "User not found" });
     }

@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema, Model } from "mongoose";
 
-// Define income schema
+// Define income document interface
 export interface IncomeDocument extends Document {
   type: string;
   source: string;
@@ -12,30 +12,18 @@ export interface IncomeDocument extends Document {
 }
 
 const incomeSchema = new Schema<IncomeDocument>({
-  type: {
-    type: String,
-    required: true,
-  },
-  source: {
-    type: String,
-    required: true,
-  },
-  amount: {
-    type: Number,
-    required: true,
-  },
-  date: {
-    type: Date,
-    required: true,
-  },
-  note: String,
-  invoiceUrl: String,
-  tags: [String],
+  type: { type: String, required: true },
+  source: { type: String, required: true },
+  amount: { type: Number, required: true },
+  date: { type: Date, required: true },
+  note: { type: String, required: false }, // Optional field
+  invoiceUrl: { type: String, required: false }, // Optional field
+  tags: { type: [String], required: false }, // Optional array of tags
 });
 
 // Create or retrieve Income model
-const IncomeModel: Model<IncomeDocument & Document> =
+const IncomeModel: Model<IncomeDocument> =
   mongoose.models.Income ||
-  mongoose.model<IncomeDocument & Document>("Income", incomeSchema);
+  mongoose.model<IncomeDocument>("Income", incomeSchema);
 
 export default IncomeModel;

@@ -20,23 +20,16 @@ export default function generateTokens(_id: string): {
   }
 
   // Generate access token
-  const accessToken: string = jwt.sign(
-    { userId: _id } as TokenPayload,
-    JWT_SECRET,
-    {
-      expiresIn: JWT_ACCESS_TOKEN_EXPIRY,
-    }
-  );
+  const accessToken = jwt.sign({ userId: _id } as TokenPayload, JWT_SECRET, {
+    expiresIn: JWT_ACCESS_TOKEN_EXPIRY,
+  });
 
   // Generate refresh token
-  const refreshToken: string = jwt.sign(
+  const refreshToken = jwt.sign(
     { userId: _id } as TokenPayload,
     JWT_REFRESH_SECRET,
-    {
-      expiresIn: JWT_REFRESH_TOKEN_EXPIRY,
-    }
+    { expiresIn: JWT_REFRESH_TOKEN_EXPIRY }
   );
 
-  // Return tokens
   return { accessToken, refreshToken };
 }

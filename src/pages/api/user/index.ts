@@ -20,13 +20,9 @@ const getUserHandler = withAuth(async function (
     // Extract user object from request (provided by withAuth middleware)
     const user = req.user;
 
-    // Return user information
     return res.status(200).json({ success: true, user });
   } catch (error) {
-    // Log the error
     console.error("Error retrieving user information:", error);
-
-    // Return a generic error response
     return res
       .status(500)
       .json({ success: false, error: "Internal Server Error" });

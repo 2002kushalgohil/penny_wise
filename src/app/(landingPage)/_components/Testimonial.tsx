@@ -6,7 +6,6 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/autoplay";
 
-// Interface for testimonial data
 interface TestimonialData {
   name: string;
   testimonial: string;
@@ -14,9 +13,7 @@ interface TestimonialData {
   avatar: string;
 }
 
-// Testimonial component
 function Testimonial() {
-  // Testimonial data
   const testimonialData: TestimonialData[] = [
     {
       name: "Amit Patel",
@@ -84,14 +81,11 @@ function Testimonial() {
         centeredSlides={true}
         initialSlide={1}
       >
-        {/* Mapping through testimonial data */}
         {testimonialData.map((data, index) => (
           <SwiperSlide key={index} className="mb-20">
             <div className="customCard w-full !z-10 flex items-start justify-between flex-col gap-10">
-              {/* Displaying testimonial */}
               <p>{data.testimonial}</p>
 
-              {/* Displaying testimonial author details */}
               <div className="flex items-center justify-center gap-5">
                 <img
                   src={`https://i.pravatar.cc/150?img=${index + 1}`}

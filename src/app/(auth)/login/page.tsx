@@ -1,5 +1,4 @@
 "use client";
-// Import necessary dependencies
 import { useState } from "react";
 import axios from "axios";
 import { z } from "zod";
@@ -18,7 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 
 // Define form schema using Zod
 const formSchema = z.object({
@@ -30,15 +29,11 @@ const formSchema = z.object({
 
 // LoginPage component
 function LoginPage() {
-  const router = useRouter()
-  // State for managing the forgot password dialog
+  const router = useRouter();
   const [isForgotPasswordDialog, setIsForgotPasswordDialog] =
     useState<boolean>(false);
-
-  // State for managing loading state
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // Form hook for handling form state
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -51,29 +46,24 @@ function LoginPage() {
   async function onSubmit(values: z.infer<typeof formSchema>): Promise<void> {
     setIsLoading(true);
     try {
-      let response = await axios.post("/api/user/login", values);
+      const response = await axios.post("/api/user/login", values);
 
       if (response?.data?.success) {
-        // Display success toast upon successful login
         toast.success("Login Successful", {
-          description: response?.data?.message,
+          description: response.data.message,
         });
-        
-        const { accessToken, refreshToken } = response?.data;
+
+        const { accessToken, refreshToken } = response.data;
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
-        router.push("/dashboard")
-
+        router.push("/dashboard");
       } else {
-        // Display error toast if login fails
         toast.error("Login Failed", {
-          description: response?.data?.error,
+          description: response.data.error,
         });
       }
     } catch (error) {
       console.log(error);
-      
-      // Handle errors from server or network failures
       if (error.response && error.response.data) {
         const { data } = error.response;
         toast.error("Login Failed", {
@@ -92,7 +82,6 @@ function LoginPage() {
   return (
     <div className="w-full !z-20">
       <h3 className="gradientText text-2xl md:text-4xl mb-5">Login</h3>
-      {/* Login form */}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
           {/* Email field */}
@@ -132,9 +121,7 @@ function LoginPage() {
           <div className="mt-5 text-right underline">
             <h4
               className="cursor-pointer"
-              onClick={() => {
-                setIsForgotPasswordDialog(true);
-              }}
+              onClick={() => setIsForgotPasswordDialog(true)}
             >
               Forgot Password
             </h4>

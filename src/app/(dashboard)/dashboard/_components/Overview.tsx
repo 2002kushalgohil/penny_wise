@@ -10,14 +10,11 @@ import {
   Bar,
 } from "recharts";
 
-// Defining type for data
 type DataPoint = {
   name: string;
   income: number;
   expense: number;
 };
-
-// Generating random data for each month
 
 const data: DataPoint[] = [
   {
@@ -82,32 +79,24 @@ const data: DataPoint[] = [
   },
 ];
 
-// Defining Overview component
-export function Overview (){
+export function Overview() {
   return (
-    // Using responsive container for chart responsiveness
     <ResponsiveContainer width="100%" height={350}>
-      {/* Rendering bar chart */}
       <BarChart data={data}>
-        {/* X-Axis for months */}
         <XAxis dataKey="name" fontSize={12} tickLine={false} axisLine={false} />
-        {/* Y-Axis for income and expense */}
         <YAxis
           fontSize={12}
           tickLine={false}
           axisLine={false}
           tickFormatter={(value: number) => `$${value}`} // Formatting tick labels as currency
         />
-        {/* Tooltip to display data on hover */}
         <Tooltip />
-        {/* Bar for income */}
         <Bar
           dataKey="income"
           stackId="a"
           radius={[8, 8, 0, 0]}
           className="fill-primary" // Adding fill class for primary income
         />
-        {/* Bar for expenses */}
         <Bar
           dataKey="expense"
           stackId="a"
@@ -117,4 +106,4 @@ export function Overview (){
       </BarChart>
     </ResponsiveContainer>
   );
-};
+}

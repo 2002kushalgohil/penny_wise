@@ -8,15 +8,15 @@ const Logo: React.FC = () => {
       <img
         src="/logos/LogoBlack.svg"
         className="w-14 dark:hidden"
-        alt="Penny Wise Logo"
+        alt="Penny Wise Logo - Black version"
       />
       <img
         src="/logos/LogoWhite.svg"
         className="w-14 hidden dark:flex"
-        alt="Penny Wise Logo"
+        alt="Penny Wise Logo - White version"
       />
       {/* Logo title */}
-      <h4 className="text-md">PENNY WISE</h4>
+      <h4 className="text-md font-bold">PENNY WISE</h4>
     </div>
   );
 };

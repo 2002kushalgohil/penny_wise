@@ -1,9 +1,9 @@
 "use client";
+
 import React, { HTMLAttributes, useState } from "react";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { addDays, format } from "date-fns";
 import { DateRange } from "react-day-picker";
-
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -13,14 +13,11 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-// Define props interface for CalendarDateRangePicker component
 interface CalendarDateRangePickerProps extends HTMLAttributes<HTMLDivElement> {}
 
-// CalendarDateRangePicker component renders a calendar date range picker
 export function CalendarDateRangePicker({
   className,
 }: CalendarDateRangePickerProps) {
-  // Initialize state for selected date range
   const [date, setDate] = useState<DateRange | undefined>({
     from: new Date(2023, 0, 20),
     to: addDays(new Date(2023, 0, 20), 20),
@@ -28,22 +25,17 @@ export function CalendarDateRangePicker({
 
   return (
     <div className={cn("grid gap-2", className)}>
-      {/* Popover for calendar */}
       <Popover>
-        {/* Popover trigger */}
         <PopoverTrigger asChild>
-          {/* Button for date range picker */}
           <Button
             id="date"
-            variant={"outline"}
+            variant="outline"
             className={cn(
-              "w-[260px] justify-start text-left font-normal bg-muted",
+              "w-[260px] justify-start text-left font-normal bg-muted/40",
               !date && "text-muted-foreground"
             )}
           >
-            {/* Calendar icon */}
             <CalendarIcon className="mr-2 h-4 w-4" />
-            {/* Render selected date range */}
             {date?.from ? (
               date.to ? (
                 <>
@@ -58,9 +50,7 @@ export function CalendarDateRangePicker({
             )}
           </Button>
         </PopoverTrigger>
-        {/* Popover content */}
         <PopoverContent className="w-auto p-0" align="end">
-          {/* Calendar component */}
           <Calendar
             initialFocus
             mode="range"

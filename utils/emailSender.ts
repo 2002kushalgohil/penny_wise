@@ -35,11 +35,8 @@ const emailSender = async (options: EmailOptions): Promise<void> => {
 
     // Send email
     await transporter.sendMail(message);
-
-    // Log success
     console.log("Email sent successfully to:", options.email);
   } catch (error) {
-    // Log and re-throw any errors that occur during sending
     console.error("Error sending email:", error);
     throw error;
   }

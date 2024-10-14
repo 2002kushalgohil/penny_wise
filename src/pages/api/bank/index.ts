@@ -9,30 +9,25 @@ import {
   withAuth,
 } from "../../../../middlewares/auth";
 
-// Connect to the database
+// Connect to the database only if not already connected
 dbConnect();
 
 const createOrGetBankHandler = withAuth(async function (
   req: AuthenticatedNextApiRequest,
   res: NextApiResponse
 ) {
-  // Extract user ID from request
   const userId = req.user?._id;
 
-  try {
-    // Ensure user is authenticated
-    if (!userId) {
-      return res.status(401).json({ success: false, error: "Unauthorized" });
-    }
+  if (!userId) {
+    return res.status(401).json({ success: false, error: "Unauthorized" });
+  }
 
-    // Handle different HTTP methods
+  try {
     switch (req.method) {
       case "GET":
         return handleGetBankAccounts(userId, res);
-
       case "POST":
         return handleCreateBankAccount(userId, req.body, res);
-
       default:
         return res
           .status(405)
@@ -48,17 +43,14 @@ const createOrGetBankHandler = withAuth(async function (
 
 async function handleGetBankAccounts(userId: string, res: NextApiResponse) {
   try {
-    // Find user and populate bank accounts
     const currentUser: UserDocument | null = await User.findById(
       userId
     ).populate("bankAccounts");
 
-    // Handle user not found
     if (!currentUser) {
       return res.status(404).json({ success: false, error: "User not found" });
     }
 
-    // Return user's bank accounts
     return res
       .status(200)
       .json({ success: true, bankAccounts: currentUser.bankAccounts });
@@ -76,21 +68,17 @@ async function handleCreateBankAccount(
   res: NextApiResponse
 ) {
   try {
-    // Check if required fields are provided
-    const { bankName, accountNumber, balance, lastSync }: BankAccountDocument =
-      bankAccountData;
+    const { bankName, accountNumber, balance, lastSync } = bankAccountData;
+
     if (!bankName || !accountNumber || !balance || !lastSync) {
       return res.status(400).json({
         success: false,
         error:
-          "Bank name, account number, balance, and last sync date are required",
+          "All fields are required: bankName, accountNumber, balance, lastSync",
       });
     }
 
-    // Check if the bank account number already exists for the user
-    const existingBankAccount = await BankAccount.findOne({
-      accountNumber: accountNumber,
-    });
+    const existingBankAccount = await BankAccount.findOne({ accountNumber });
 
     if (existingBankAccount) {
       return res.status(400).json({
@@ -99,29 +87,19 @@ async function handleCreateBankAccount(
       });
     }
 
-    // Create new bank account
     const newBankAccount: BankAccountDocument = new BankAccount(
       bankAccountData
     );
-
-    // Save new bank account
     const savedBankAccount = await newBankAccount.save();
 
-    // Find user
     const currentUser: UserDocument | null = await User.findById(userId);
-
-    // Handle user not found
     if (!currentUser) {
       return res.status(404).json({ success: false, error: "User not found" });
     }
 
-    // Add new bank account to user's bank accounts
     currentUser.bankAccounts.push(savedBankAccount._id);
-
-    // Save updated user document
     await currentUser.save();
 
-    // Return success response
     return res.status(201).json({ success: true, savedBankAccount });
   } catch (error) {
     console.error("Error creating bank account:", error);

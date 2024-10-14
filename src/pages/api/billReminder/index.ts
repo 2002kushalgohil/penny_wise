@@ -12,53 +12,47 @@ import User, { UserDocument } from "../../../../models/User";
 // Connect to the database
 dbConnect();
 
-const billReminderHandler = withAuth(async function (
-  req: AuthenticatedNextApiRequest,
-  res: NextApiResponse
-) {
-  // Extract user ID from request
-  const userId = req.user?._id;
+const billReminderHandler = withAuth(
+  async (req: AuthenticatedNextApiRequest, res: NextApiResponse) => {
+    const userId = req.user?._id;
 
-  try {
-    // Ensure user is authenticated
-    if (!userId) {
-      return res.status(401).json({ success: false, error: "Unauthorized" });
+    try {
+      if (!userId) {
+        return res.status(401).json({ success: false, error: "Unauthorized" });
+      }
+
+      // Handle different HTTP methods
+      switch (req.method) {
+        case "GET":
+          return handleGetBillReminders(userId, res);
+
+        case "POST":
+          return handleCreateBillReminder(userId, req.body, res);
+
+        default:
+          return res
+            .status(405)
+            .json({ success: false, error: "Method not allowed" });
+      }
+    } catch (error) {
+      console.error("Error in bill reminder handler:", error);
+      return res
+        .status(500)
+        .json({ success: false, error: "Internal Server Error" });
     }
-
-    // Handle different HTTP methods
-    switch (req.method) {
-      case "GET":
-        return handleGetBillReminders(userId, res);
-
-      case "POST":
-        return handleCreateBillReminder(userId, req.body, res);
-
-      default:
-        return res
-          .status(405)
-          .json({ success: false, error: "Method not allowed" });
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    return res
-      .status(500)
-      .json({ success: false, error: "Internal Server Error" });
   }
-});
+);
 
 async function handleGetBillReminders(userId: string, res: NextApiResponse) {
   try {
-    // Find bill reminders belonging to the user
-    const currentUser: UserDocument | null = await User.findById(
-      userId
-    ).populate("billReminders");
+    const currentUser: UserDocument | null = await User.findById(userId)
+      .populate("billReminders")
+      .lean();
 
-    // Handle user not found
     if (!currentUser) {
       return res.status(404).json({ success: false, error: "User not found" });
     }
 
-    // Return user's bill reminders
     return res
       .status(200)
       .json({ success: true, billReminders: currentUser.billReminders });
@@ -76,16 +70,9 @@ async function handleCreateBillReminder(
   res: NextApiResponse
 ) {
   try {
-    // Destructure necessary fields from billReminderData
-    const {
-      name,
-      dueDate,
-      amount,
-      frequency,
-      reminderPreferences,
-    }: BillReminderDocument = billReminderData;
+    const { name, dueDate, amount, frequency, reminderPreferences } =
+      billReminderData;
 
-    // Check if required fields are provided
     if (!name || !dueDate || !amount || !frequency || !reminderPreferences) {
       return res.status(400).json({
         success: false,
@@ -93,32 +80,22 @@ async function handleCreateBillReminder(
       });
     }
 
-    // Create new bill reminder
-    const newBillReminder: BillReminderDocument = new BillReminder(
-      billReminderData
+    const newBillReminder = await new BillReminder(billReminderData).save();
+
+    const currentUser = await User.findByIdAndUpdate(
+      userId,
+      { $push: { billReminders: newBillReminder._id } },
+      { new: true, runValidators: true }
     );
 
-    // Save new bill reminder
-    const savedBillReminder = await newBillReminder.save();
-
-    // Find user
-    const currentUser: UserDocument | null = await User.findById(userId);
-
-    // Handle user not found
     if (!currentUser) {
       return res.status(404).json({ success: false, error: "User not found" });
     }
 
-    // Add new bill reminder to user's bill reminders
-    currentUser.billReminders.push(savedBillReminder._id);
-
-    // Save updated user document
-    await currentUser.save();
-
     // Return success response
     return res
       .status(201)
-      .json({ success: true, billReminder: savedBillReminder });
+      .json({ success: true, billReminder: newBillReminder });
   } catch (error) {
     console.error("Error creating bill reminder:", error);
     return res

@@ -11,6 +11,12 @@ interface SubscribeRequest {
   email: string;
 }
 
+// Simple email validation function
+function isValidEmail(email: string): boolean {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(email);
+}
+
 export default async function subscribeHandler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -25,26 +31,26 @@ export default async function subscribeHandler(
     const { email }: SubscribeRequest = req.body;
 
     // Validate email
-    if (!email) {
+    if (!email || !isValidEmail(email)) {
       return res
         .status(400)
-        .json({ success: false, error: "Email is required" });
+        .json({ success: false, error: "A valid email is required" });
     }
 
     // Check if email is already subscribed
     const existingSubscription: EmailSubscriptionDocument | null =
       await EmailSubscription.findOne({ email });
 
-    // If already subscribed, return message
+    // If already subscribed, return conflict message
     if (existingSubscription) {
       return res
-        .status(200)
+        .status(409)
         .json({ success: false, error: "You are already subscribed!" });
     } else {
-      // If not subscribed, create new subscription
+      // If not subscribed, create a new subscription
       await EmailSubscription.create({ email });
       return res
-        .status(200)
+        .status(201)
         .json({ success: true, message: "Thank you for subscribing!" });
     }
   } catch (error) {

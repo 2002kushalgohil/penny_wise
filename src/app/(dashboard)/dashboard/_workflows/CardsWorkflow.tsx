@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart2, CreditCard, DollarSign, Users } from "lucide-react";
 
-// Define the data interface for cardData
+// Define the structure of card data
 interface CardData {
   title: string;
   backgroundColor: string;
@@ -11,7 +11,7 @@ interface CardData {
   change: string;
 }
 
-// Sample data for cards
+// Data for the cards
 const cardData: CardData[] = [
   {
     title: "Total Budget",
@@ -43,34 +43,33 @@ const cardData: CardData[] = [
   },
 ];
 
-// Define props interface for CardComponent
-interface CardComponentProps extends CardData {}
+// Card component
+const CardComponent: React.FC<CardData> = ({
+  title,
+  backgroundColor,
+  icon,
+  amount,
+  change,
+}) => (
+  <Card className="border-0 text-black" style={{ backgroundColor }}>
+    <CardHeader className="flex flex-row items-center justify-between pb-2">
+      <CardTitle className="text-sm font-medium">{title}</CardTitle>
+      {icon}
+    </CardHeader>
+    <CardContent>
+      <div className="text-2xl font-bold">{amount}</div>
+      <p className="text-xs text-muted-foreground">{change}</p>
+    </CardContent>
+  </Card>
+);
 
-// CardComponent renders a single card
-const CardComponent: React.FC<CardComponentProps> = ({ title, backgroundColor, icon, amount, change }) => {
-  return (
-    <Card className={`border-0 !text-black`} style={{ backgroundColor: backgroundColor }}>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">{title}</CardTitle>
-        {icon}
-      </CardHeader>
-      <CardContent>
-        <div className="text-2xl font-bold">{amount}</div>
-        <p className="text-xs text-muted-foreground">{change}</p>
-      </CardContent>
-    </Card>
-  );
-}
-
-// CardsWorkflow renders multiple cards using cardData
-function CardsWorkflow() {
-  return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-      {cardData.map((data, index) => (
-        <CardComponent key={index} {...data} />
-      ))}
-    </div>
-  );
-}
+// Cards workflow component
+const CardsWorkflow: React.FC = () => (
+  <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    {cardData.map((data, index) => (
+      <CardComponent key={index} {...data} />
+    ))}
+  </div>
+);
 
 export default CardsWorkflow;

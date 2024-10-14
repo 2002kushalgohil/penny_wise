@@ -7,7 +7,6 @@ import {
 } from "@/components/ui/accordion";
 import HeadLine from "./HeadLine";
 
-// Interface for FAQ item
 interface FAQItem {
   question: string;
   answer: string;
@@ -51,12 +50,10 @@ function FAQ() {
 
   return (
     <div id="FAQs" className="dots relative">
-      {/* Background circles */}
       <div className="h-80 w-80 rounded-full bg-secondary blur-[200px] absolute -top-40 -left-40 z-10" />
       <div className="h-80 w-80 rounded-full bg-primary blur-[250px] absolute top-[30%] right-40 z-10" />
-      
+
       <div className="globalPadding flex items-center justify-center flex-col gap-10">
-        {/* FAQ headline */}
         <HeadLine title="FAQs" />
 
         <h3 className="gradientText text-2xl md:text-4xl text-center !z-20">
@@ -64,7 +61,6 @@ function FAQ() {
         </h3>
 
         <div className="w-full lg:w-9/12 !z-20">
-          {/* FAQ accordion */}
           <Accordion type="single" collapsible className="w-full !z-20">
             {faqs.map((data, index) => (
               <AccordionItem

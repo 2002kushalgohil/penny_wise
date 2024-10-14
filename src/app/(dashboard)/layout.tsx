@@ -1,16 +1,14 @@
 "use client";
+
 import React from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import {
-  Bell,
   CreditCard,
-  DollarSign,
   Home,
   PanelLeft,
   SearchIcon,
   Settings,
-  Trophy,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -59,30 +57,9 @@ function Layout({ children }: LayoutProps): JSX.Element {
       label: "/transactions",
       tooltip: "Transactions",
     },
-    {
-      icon: <DollarSign className="h-5 w-5" />,
-      label: "/budgets",
-      tooltip: "Budgets",
-    },
-    { icon: <Trophy className="h-5 w-5" />, label: "Goals", tooltip: "Goals" },
-    {
-      icon: <Bell className="h-5 w-5" />,
-      label: "/reminders",
-      tooltip: "Reminders",
-    },
-    {
-      icon: <DollarSign className="h-5 w-5" />,
-      label: "/debts",
-      tooltip: "Debts",
-    },
-    {
-      icon: <Settings className="h-5 w-5" />,
-      label: "/settings",
-      tooltip: "Settings",
-    },
   ];
 
-  // Function to handle logout
+  // Handle user logout
   const handleLogout = (): void => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
@@ -116,7 +93,7 @@ function Layout({ children }: LayoutProps): JSX.Element {
               </TooltipProvider>
             ))}
           </nav>
-          {/* Render additional menu item */}
+          {/* Additional settings menu item */}
           <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-4">
             <TooltipProvider>
               <Tooltip>
@@ -134,6 +111,7 @@ function Layout({ children }: LayoutProps): JSX.Element {
             </TooltipProvider>
           </nav>
         </aside>
+
         {/* Main content */}
         <div className="flex flex-col sm:pl-16">
           {/* Header */}
@@ -147,7 +125,7 @@ function Layout({ children }: LayoutProps): JSX.Element {
               </SheetTrigger>
               <SheetContent side="left" className="sm:max-w-xs">
                 <nav className="grid gap-6 text-lg font-medium pt-10">
-                  {/* Render menu items */}
+                  {/* Render menu items in header */}
                   {menuItems.map((item, index) => (
                     <Link
                       key={index}
@@ -164,7 +142,7 @@ function Layout({ children }: LayoutProps): JSX.Element {
                 </nav>
               </SheetContent>
             </Sheet>
-            {/* Theme switcher and search */}
+            {/* Theme switcher and search input */}
             <div className="ml-auto flex-1 md:grow-0 flex items-center justify-center gap-4">
               <ThemeSwitcher isCustomBg={false} />
               <div className="relative">
@@ -176,7 +154,7 @@ function Layout({ children }: LayoutProps): JSX.Element {
                 />
               </div>
             </div>
-            {/* Dropdown menu for user account */}
+            {/* User account dropdown menu */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -201,8 +179,9 @@ function Layout({ children }: LayoutProps): JSX.Element {
               </DropdownMenuContent>
             </DropdownMenu>
           </header>
-          {/* Main content */}
-          <div className=" mx-auto w-full max-w-[2200px]">
+
+          {/* Main content area */}
+          <div className="mx-auto w-full max-w-[2200px]">
             <div className="p-4 lg:p-6">{children}</div>
           </div>
         </div>

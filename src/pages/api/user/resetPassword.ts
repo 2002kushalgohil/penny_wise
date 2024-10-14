@@ -23,46 +23,40 @@ export default async function resetPasswordHandler(
   }
 
   try {
-    const paramToken: string | undefined = req.query.token as
-      | string
-      | undefined;
+    const paramToken = req.query.token as string | undefined;
     const { password, confirmPassword }: ResetPasswordRequest = req.body;
 
-    // Validate password, confirmPassword, and token
+    // Validate input
     if (!password || !confirmPassword || !paramToken) {
       return res.status(400).json({
         success: false,
-        error: "Password, Confirm password, and token are required",
+        error: "Password, confirm password, and token are required",
       });
     }
 
-    // Find user by the provided token and ensure the token is not expired
+    // Find user by token and check token validity
     const user: UserDocument | null = await User.findOne({
       forgotPasswordToken: paramToken,
       forgotPasswordExpiry: { $gt: Date.now() },
     });
 
-    // If user not found or token expired, return error
     if (!user) {
-      return res.status(400).json({ success: false, error: "Token Expired" });
+      return res.status(400).json({ success: false, error: "Token expired" });
     }
 
-    // Check if password and confirmPassword match
+    // Check if passwords match
     if (password !== confirmPassword) {
       return res
         .status(400)
         .json({ success: false, error: "Passwords do not match" });
     }
 
-    // Hash the new password
-    const hashedPassword: string = await bcrypt.hash(password, 10);
-
-    // Update user's password and clear forgot password token and expiry
-    user.password = hashedPassword;
+    // Hash and update password
+    user.password = await bcrypt.hash(password, 10);
     user.forgotPasswordToken = undefined;
     user.forgotPasswordExpiry = undefined;
 
-    // Generate new access and refresh tokens
+    // Generate new tokens
     const { accessToken, refreshToken } = generateTokens(user._id);
 
     // Save user changes
@@ -72,11 +66,9 @@ export default async function resetPasswordHandler(
     return res.status(200).json({ success: true, accessToken, refreshToken });
   } catch (error) {
     console.error("Error resetting password:", error);
-    return res
-      .status(500)
-      .json({
-        success: false,
-        error: "An error occurred while processing your request",
-      });
+    return res.status(500).json({
+      success: false,
+      error: "An error occurred while processing your request",
+    });
   }
 }

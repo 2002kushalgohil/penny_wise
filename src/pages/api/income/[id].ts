@@ -94,7 +94,7 @@ async function handleUpdateIncome(
     const { type, source, amount, date }: IncomeDocument = incomeData;
 
     // Check if required fields are provided
-    if (!type || !source || !amount || !date) {
+    if (!incomeId || !type || !source || !amount || !date) {
       return res.status(400).json({
         success: false,
         error:

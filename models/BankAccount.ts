@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema, Model } from "mongoose";
 
-// Define bank account schema
+// Define bank account document interface
 export interface BankAccountDocument extends Document {
   bankName: string;
   accountNumber: string;
@@ -9,25 +9,10 @@ export interface BankAccountDocument extends Document {
 }
 
 const bankAccountSchema = new Schema<BankAccountDocument>({
-  bankName: {
-    type: String,
-    required: true,
-  },
-  accountNumber: {
-    type: String,
-    required: true,
-    unique: true, // Ensure account numbers are unique
-  },
-  balance: {
-    type: Number,
-    default: 0,
-    required: true,
-  },
-  lastSync: {
-    type: Date,
-    default: Date.now,
-    required: true,
-  },
+  bankName: { type: String, required: true },
+  accountNumber: { type: String, required: true, unique: true },
+  balance: { type: Number, default: 0, required: true },
+  lastSync: { type: Date, default: Date.now, required: true },
 });
 
 // Create or retrieve BankAccount model

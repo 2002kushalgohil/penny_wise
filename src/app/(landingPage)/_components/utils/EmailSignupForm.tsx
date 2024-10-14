@@ -1,4 +1,3 @@
-// Import necessary dependencies
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -16,25 +15,23 @@ import { Input } from "@/components/ui/input";
 import axios from "axios";
 import { useState } from "react";
 
-// Define the form schema
 const formSchema = z.object({
   email: z.string().email({
     message: "Invalid email address.",
   }),
 });
 
-// Define props interface for the EmailSignupForm component
 interface EmailSignupFormProps {
   setIsEmailSignupDialog: React.Dispatch<React.SetStateAction<boolean>>;
   isSmallerVersion: boolean;
 }
 
-// EmailSignupForm component
-function EmailSignupForm({ setIsEmailSignupDialog, isSmallerVersion }: EmailSignupFormProps) {
-  // State for loading state
+function EmailSignupForm({
+  setIsEmailSignupDialog,
+  isSmallerVersion,
+}: EmailSignupFormProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // Form hook
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -42,19 +39,18 @@ function EmailSignupForm({ setIsEmailSignupDialog, isSmallerVersion }: EmailSign
     },
   });
 
-  // Form submit handler
   async function onSubmit(values: z.infer<typeof formSchema>): Promise<void> {
     setIsLoading(true);
     try {
       const response = await axios.post("/api/emailsignup", values);
-  
+
       if (response?.data?.success) {
         toast.success("Email Signup", {
-          description: response?.data?.message,
+          description: response.data.message,
         });
       } else {
         toast.error("Email Signup", {
-          description: response?.data?.error,
+          description: response.data.error,
         });
       }
     } catch (error) {

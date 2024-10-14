@@ -14,19 +14,18 @@ const expenseHandler = withAuth(async function (
   req: AuthenticatedNextApiRequest,
   res: NextApiResponse
 ) {
-  // Extract necessary information from the request
   const { method } = req;
   const userId = req.user?._id;
   const { id } = req.query;
 
   // Ensure user is authorized to access the expenses
   const isAllowed = req.user?.expenses.find(
-    (expensesId) => expensesId.toString() === id
+    (expenseId) => expenseId.toString() === id
   );
 
   // Check if user is allowed to access the expenses
   if (!isAllowed) {
-    return res.status(401).json({ success: false, error: "Expense Not Found" });
+    return res.status(403).json({ success: false, error: "Access forbidden" });
   }
 
   try {
@@ -59,22 +58,24 @@ async function handleGetExpense(
   res: NextApiResponse
 ) {
   try {
-    // Find user by ID and populate expense
     const user: UserDocument | null = await User.findById(userId).populate(
       "expenses"
     );
 
-    // Return error if user not found
     if (!user) {
       return res.status(404).json({ success: false, error: "User not found" });
     }
 
-    // Find expense in user's expenses array
     const expense = user.expenses.find(
       (expense) => expense._id.toString() === expenseId
     );
 
-    // Return expense information
+    if (!expense) {
+      return res
+        .status(404)
+        .json({ success: false, error: "Expense not found" });
+    }
+
     return res.status(200).json({ success: true, expense });
   } catch (error) {
     console.error("Error fetching expense:", error);
@@ -90,35 +91,29 @@ async function handleUpdateExpense(
   res: NextApiResponse
 ) {
   try {
-    // Extract necessary fields from request body
-    const { category, amount, date }: ExpenseDocument = expenseData;
+    const { type, source, amount, date } = expenseData;
 
-    // Check if required fields are provided
-    if (!expenseId || !category || !amount || !date) {
+    if (!expenseId || !type || !source || !amount || !date) {
       return res.status(400).json({
         success: false,
         error: "Please fill all the details",
       });
     }
 
-    // Update the expense and get the updated document
     const updatedExpense = await Expense.findOneAndUpdate(
       { _id: expenseId },
       expenseData,
       { new: true }
     );
 
-    // Return error if expense not found
     if (!updatedExpense) {
       return res
         .status(404)
         .json({ success: false, error: "Expense not found" });
     }
 
-    // Return success response with updated expense information
     return res.status(200).json({ success: true, expense: updatedExpense });
   } catch (error) {
-    // Handle any errors occurred during updating expense
     console.error("Error updating expense:", error);
     return res
       .status(500)
@@ -131,23 +126,19 @@ async function handleDeleteExpense(
   res: NextApiResponse
 ) {
   try {
-    // Delete the expense
     const deletedExpense = await Expense.findByIdAndDelete(expenseId);
 
-    // Return error if expense not found
     if (!deletedExpense) {
       return res
         .status(404)
         .json({ success: false, error: "Expense not found" });
     }
 
-    // Remove the expense ID from user's expenses array
     await User.updateOne(
       { expenses: expenseId },
       { $pull: { expenses: expenseId } }
     );
 
-    // Return success response
     return res
       .status(200)
       .json({ success: true, message: "Expense deleted successfully" });

@@ -4,7 +4,6 @@ import { Cross1Icon, HamburgerMenuIcon } from "@radix-ui/react-icons";
 import React from "react";
 import Logo from "@/components/utils/Logo";
 
-// Function to generate navbar links
 const generateNavbarLink = (
   label: string,
   isMobile: boolean,
@@ -32,17 +31,14 @@ const Navbar: React.FC<{
   const [isFullNav, setIsFullNav] = useState<boolean>(false);
   const [scrollPosition, setScrollPosition] = useState<number>(0);
 
-  // Function to toggle the full navbar
   const toggleNavbar = () => {
     setIsFullNav((prev) => !prev);
   };
 
-  // Effect to handle overflow based on navbar state
   useEffect(() => {
     document.body.style.overflow = isFullNav ? "hidden" : "";
   }, [isFullNav]);
 
-  // Effect to update scroll position
   useEffect(() => {
     const handleScroll = () => {
       setScrollPosition(window.scrollY);
@@ -66,7 +62,6 @@ const Navbar: React.FC<{
           <Logo />
         </a>
         <div className="hidden lg:flex items-center justify-start gap-5">
-          {/* Generate navbar links */}
           {generateNavbarLink("Home", false, setIsFullNav)}
           {generateNavbarLink("About", false, setIsFullNav)}
           {generateNavbarLink("Features", false, setIsFullNav)}
@@ -96,10 +91,8 @@ const Navbar: React.FC<{
         style={{ transition: "transform 0.3s ease-in-out" }}
       >
         <div className="w-full flex items-center justify-between">
-          <a
-            href="#home"
-          >
-          <Logo />
+          <a href="#home">
+            <Logo />
           </a>
 
           <Button
@@ -112,7 +105,6 @@ const Navbar: React.FC<{
         </div>
 
         <div className="flex items-center justify-start flex-col gap-5 mt-20">
-          {/* Generate navbar links for mobile */}
           {generateNavbarLink("Home", true, setIsFullNav)}
           {generateNavbarLink("About", true, setIsFullNav)}
           {generateNavbarLink("Features", true, setIsFullNav)}

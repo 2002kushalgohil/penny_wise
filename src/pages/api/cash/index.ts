@@ -13,84 +13,78 @@ const cashHandler = withAuth(async function (
   req: AuthenticatedNextApiRequest,
   res: NextApiResponse
 ) {
-  // Extract user ID from request
   const userId = req.user?._id;
 
-  try {
-    // Ensure user is authenticated
-    if (!userId) {
-      return res.status(401).json({ success: false, error: "Unauthorized" });
-    }
+  if (!userId) {
+    return sendErrorResponse(res, 401, "Unauthorized");
+  }
 
-    // Handle different HTTP methods
+  try {
     switch (req.method) {
       case "GET":
         return handleGetCash(userId, res);
-
       case "PUT":
         return handleUpdateCash(userId, req.body, res);
-
       default:
-        return res
-          .status(405)
-          .json({ success: false, error: "Method not allowed" });
+        return sendErrorResponse(res, 405, "Method not allowed");
     }
   } catch (error) {
     console.error("Error:", error);
-    return res
-      .status(500)
-      .json({ success: false, error: "Internal Server Error" });
+    return sendErrorResponse(res, 500, "Internal Server Error");
   }
 });
 
+// Utility function to send error responses
+function sendErrorResponse(
+  res: NextApiResponse,
+  statusCode: number,
+  message: string
+) {
+  return res.status(statusCode).json({ success: false, error: message });
+}
+
+// Define type for cash data
+type CashData = {
+  wallet: number;
+};
+
 async function handleGetCash(userId: string, res: NextApiResponse) {
   try {
-    // Find user by ID and retrieve cash information
     const user: UserDocument | null = await User.findById(userId);
-
-    // Handle user not found
     if (!user) {
-      return res.status(404).json({ success: false, error: "User not found" });
+      return sendErrorResponse(res, 404, "User not found");
     }
-
-    // Return user's cash information
     return res.status(200).json({ success: true, cash: user.cash });
   } catch (error) {
     console.error("Error fetching user cash information:", error);
-    return res
-      .status(500)
-      .json({ success: false, error: "Failed to fetch user cash information" });
+    return sendErrorResponse(res, 500, "Failed to fetch user cash information");
   }
 }
 
 async function handleUpdateCash(
   userId: string,
-  cashData: { wallet: number },
+  cashData: CashData,
   res: NextApiResponse
 ) {
   try {
-    // Update user's cash information
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { cash: cashData },
       { new: true }
     );
 
-    // Handle user not found
     if (!updatedUser) {
-      return res.status(404).json({ success: false, error: "User not found" });
+      return sendErrorResponse(res, 404, "User not found");
     }
 
-    // Return success response with updated cash information
     return res.status(200).json({ success: true, cash: updatedUser.cash });
   } catch (error) {
     console.error("Error updating user cash information:", error);
-    return res
-      .status(500)
-      .json({
-        success: false,
-        error: "Failed to update user cash information",
-      });
+    return sendErrorResponse(
+      res,
+      500,
+      "Failed to update user cash information"
+    );
   }
 }
 

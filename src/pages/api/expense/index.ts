@@ -14,7 +14,6 @@ const expensesHandler = withAuth(async function (
   req: AuthenticatedNextApiRequest,
   res: NextApiResponse
 ) {
-  // Extract user ID from request
   const userId = req.user?._id;
 
   try {
@@ -74,36 +73,30 @@ async function handleCreateExpense(
   res: NextApiResponse
 ) {
   try {
-    // Destructure necessary fields from expenseData
-    const { category, amount, date }: ExpenseDocument = expenseData;
-
     // Check if required fields are provided
-    if (!category || !amount || !date) {
-      return res.status(400).json({
-        success: false,
-        error:
-          "Category, amount, and date are required for creating an expense",
-      });
+    const { type, source, amount, date } = expenseData; // Destructure necessary fields directly
+    if (!type || !source || !amount || !date) {
+      return res
+        .status(400)
+        .json({
+          success: false,
+          error:
+            "Category, amount, and date are required for creating an expense",
+        });
     }
 
-    // Create new expense
+    // Create and save new expense
     const newExpense: ExpenseDocument = new Expense(expenseData);
-
-    // Save new expense
     const savedExpense = await newExpense.save();
 
-    // Find user
+    // Find user and update their expenses
     const currentUser: UserDocument | null = await User.findById(userId);
-
-    // Handle user not found
     if (!currentUser) {
       return res.status(404).json({ success: false, error: "User not found" });
     }
 
-    // Add new expense to user's expenses
+    // Add new expense to user's expenses and save
     currentUser.expenses.push(savedExpense._id);
-
-    // Save updated user document
     await currentUser.save();
 
     // Return success response

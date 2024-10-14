@@ -11,6 +11,7 @@ const TopBar: React.FC = () => {
       {/* Date Range Picker and Download Button */}
       <div className="flex items-center flex-wrap gap-4">
         <CalendarDateRangePicker />
+        <Button>Download</Button>
       </div>
     </div>
   );

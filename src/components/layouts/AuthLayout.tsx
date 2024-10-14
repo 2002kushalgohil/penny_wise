@@ -8,17 +8,15 @@ interface LayoutProps {
 }
 
 // AuthLayout component
-const AuthLayout: React.FC<LayoutProps> = ({ children }: LayoutProps) => {
+const AuthLayout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className="dots h-full w-full flex items-center justify-center overflow-hidden">
       <div className="globalPadding relative grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-10 w-full max-w-[2000px] h-full max-h-[1000px] bg-primary-foreground dark:bg-muted rounded-none 2xl:rounded-3xl">
         {/* Logo and content */}
         <div className="flex items-start justify-center flex-col relative h-full overflow-hidden px-1">
-          {/* Logo */}
           <div className="mb-5 md:mb-10 absolute top-0 left-0">
             <Logo />
           </div>
-          {/* Children components */}
           {children}
         </div>
 
@@ -35,7 +33,6 @@ const AuthLayout: React.FC<LayoutProps> = ({ children }: LayoutProps) => {
         </div>
       </div>
 
-      {/* Render toaster component */}
       <Toaster />
     </div>
   );

@@ -1,19 +1,15 @@
 import React from "react";
 import HeadLine from "./HeadLine";
 
-// Define interface for a single feature
 interface Feature {
   imgSrc: string;
   title: string;
   description: string;
 }
 
-// Define props interface for the Features component
 interface FeaturesProps {}
 
-// Features component
 const Features: React.FC<FeaturesProps> = () => {
-  // Data for features
   const data: Feature[] = [
     {
       imgSrc: "Money.svg",
@@ -46,7 +42,6 @@ const Features: React.FC<FeaturesProps> = () => {
     },
   ];
 
-  // Tags for features
   const tags: string[] = [
     "Finance",
     "Budgeting",
@@ -57,7 +52,6 @@ const Features: React.FC<FeaturesProps> = () => {
     "Reminder",
   ];
 
-  // Function to render a single feature card
   const featureCard = (
     feature: Feature,
     isLongCard: boolean,
@@ -85,7 +79,6 @@ const Features: React.FC<FeaturesProps> = () => {
     );
   };
 
-  // Function to render a single feature chip
   const featureChip = (tag: string, index: number) => {
     return (
       <div
@@ -103,21 +96,17 @@ const Features: React.FC<FeaturesProps> = () => {
       id="Features"
       className="globalPadding flex items-center justify-center flex-col gap-10 relative"
     >
-      {/* Background circles */}
       <div className="h-80 w-80 rounded-full bg-primary blur-[250px] absolute bottom-24 left-40 z-10" />
       <div className="h-80 w-80 rounded-full bg-secondary blur-[250px] absolute top-0 right-0" />
 
-      {/* Headline */}
       <HeadLine title="WHAT YOU'LL GET" />
 
-      {/* Subtitle */}
       <div className="w-full md:w-7/12 text-left md:text-center">
         <h3 className="gradientText text-2xl md:text-4xl !z-20">
           Discover financial control with personalised insights
         </h3>
       </div>
 
-      {/* Features */}
       <div className="w-full grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-10 !z-20">
         {data.slice(0, 3).map((feature, index) => {
           return featureCard(feature, false, index);
@@ -130,7 +119,6 @@ const Features: React.FC<FeaturesProps> = () => {
         })}
       </div>
 
-      {/* Feature tags */}
       <div className="w-full md:w-8/12 flex items-center justify-center flex-wrap gap-10 !z-20">
         {tags.map((tag, index) => {
           return featureChip(tag, index);

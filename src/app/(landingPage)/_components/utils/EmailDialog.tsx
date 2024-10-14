@@ -16,13 +16,16 @@ interface EmailDialogProps {
 }
 
 // EmailDialog component
-function EmailDialog({ setIsEmailSignupDialog, isEmailSignupDialog }: EmailDialogProps) {
+function EmailDialog({
+  setIsEmailSignupDialog,
+  isEmailSignupDialog,
+}: EmailDialogProps) {
   return (
     <Dialog
       open={isEmailSignupDialog}
       onOpenChange={(e) => setIsEmailSignupDialog(e)}
     >
-      <DialogContent className="">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle className="text-left">
             Sign up for Newsletter
@@ -32,7 +35,10 @@ function EmailDialog({ setIsEmailSignupDialog, isEmailSignupDialog }: EmailDialo
             Enter your email below and click &quot;Subscribe&quot;.
           </DialogDescription>
         </DialogHeader>
-        <EmailSignupForm setIsEmailSignupDialog={setIsEmailSignupDialog} isSmallerVersion={false} />
+        <EmailSignupForm
+          setIsEmailSignupDialog={setIsEmailSignupDialog}
+          isSmallerVersion={false}
+        />
       </DialogContent>
     </Dialog>
   );

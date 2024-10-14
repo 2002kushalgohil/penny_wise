@@ -73,13 +73,8 @@ async function handleCreateDebt(
 ) {
   try {
     // Destructure necessary fields from debtData
-    const {
-      name,
-      balance,
-      interestRate,
-      minimumPayment,
-      paymentDueDate,
-    }: DebtDocument = debtData;
+    const { name, balance, interestRate, minimumPayment, paymentDueDate } =
+      debtData;
 
     // Check if required fields are provided
     if (
@@ -96,7 +91,13 @@ async function handleCreateDebt(
     }
 
     // Create new debt
-    const newDebt: DebtDocument = new Debt(debtData);
+    const newDebt = new Debt({
+      name,
+      balance,
+      interestRate,
+      minimumPayment,
+      paymentDueDate,
+    });
 
     // Save new debt
     const savedDebt = await newDebt.save();
@@ -111,8 +112,6 @@ async function handleCreateDebt(
 
     // Add new debt to user's debts
     currentUser.debts.push(savedDebt._id);
-
-    // Save updated user document
     await currentUser.save();
 
     // Return success response
@@ -121,7 +120,7 @@ async function handleCreateDebt(
     console.error("Error creating debt:", error);
     return res
       .status(500)
-      .json({ success: false, error: "Internal Server Error" });
+      .json({ success: false, error: "Failed to create debt" });
   }
 }
 

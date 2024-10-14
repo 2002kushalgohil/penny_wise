@@ -1,44 +1,40 @@
-// Import necessary modules from React and Radix UI
 import React, { useEffect, useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SunIcon, MoonIcon } from "@radix-ui/react-icons";
 
-// Define props interface for ThemeSwitcher component
 interface ThemeSwitcherProps {
   isCustomBg: boolean;
 }
 
-// Define the ThemeSwitcher component
 const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ isCustomBg }) => {
-  // Initialize currentTheme state based on body class
-  const [currentTheme, setCurrentTheme] = useState<string>("light");
+  const [theme, setTheme] = useState<string>("light");
 
-  // Function to toggle between light and dark themes and update body class
-  const onThemeSwitcher = () => {
-    const newTheme = currentTheme === "light" ? "dark" : "light";
-    setCurrentTheme(newTheme);
-    document.body.className = newTheme;
+  const onThemeSwitcher = (newTheme: string) => {
+    setTheme(newTheme);
+    document.body.className = newTheme; // Apply the theme to the body
+    localStorage.setItem("theme", newTheme); // Save the theme in localStorage
   };
 
-  // Effect to set initial theme based on body class
+  // Load the theme from localStorage on component mount
   useEffect(() => {
-    const bodyClassName = document.body.className;
-    setCurrentTheme(bodyClassName);
+    const storedTheme = localStorage.getItem("theme");
+    if (storedTheme) {
+      setTheme(storedTheme);
+      document.body.className = storedTheme; // Apply the saved theme
+    }
   }, []);
 
   return (
-    <Tabs
-      onValueChange={onThemeSwitcher}
-      value={currentTheme}
-      className="!z-20"
-    >
-      {/* Render TabsList with conditional background color */}
-      <TabsList className={`!z-20 ${isCustomBg && "bg-background"} rounded-full px-2`}>
-        {/* Render TabsTrigger for light theme */}
+    <Tabs onValueChange={onThemeSwitcher} value={theme} className="!z-20">
+      <TabsList
+        className={`!z-20 ${
+          isCustomBg ? "bg-background" : ""
+        } rounded-full px-2`}
+      >
         <TabsTrigger value="light" className="!z-20">
           <SunIcon />
         </TabsTrigger>
-        {/* Render TabsTrigger for dark theme */}
+
         <TabsTrigger value="dark" className="!z-20">
           <MoonIcon />
         </TabsTrigger>
@@ -47,5 +43,4 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ isCustomBg }) => {
   );
 };
 
-// Export the ThemeSwitcher component
 export default ThemeSwitcher;

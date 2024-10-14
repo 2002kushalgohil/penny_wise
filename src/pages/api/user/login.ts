@@ -55,7 +55,6 @@ export default async function loginHandler(
     // Return tokens
     return res.status(200).json({ success: true, accessToken, refreshToken });
   } catch (error) {
-    // Handle errors
     console.error("Error while logging in:", error);
     return res
       .status(500)

@@ -26,7 +26,7 @@ export default async function registerHandler(
   try {
     const { username, email, password }: RegisterRequest = req.body;
 
-    // Validate username, email, and password
+    // Validate input
     if (!username || !email || !password) {
       return res.status(400).json({
         success: false,
@@ -34,7 +34,7 @@ export default async function registerHandler(
       });
     }
 
-    // Check if email is already registered
+    // Check for existing user
     const existingUserByEmail = await User.findOne({ email });
     if (existingUserByEmail) {
       return res
@@ -42,7 +42,6 @@ export default async function registerHandler(
         .json({ success: false, error: "Email already registered" });
     }
 
-    // Check if username is already taken
     const existingUserByUsername = await User.findOne({ username });
     if (existingUserByUsername) {
       return res
@@ -54,20 +53,14 @@ export default async function registerHandler(
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create a new user
-    const newUser = new User({
-      username,
-      email,
-      password: hashedPassword,
-    });
+    const newUser = new User({ username, email, password: hashedPassword });
     await newUser.save();
 
-    // Generate access and refresh tokens
+    // Generate tokens
     const { accessToken, refreshToken } = generateTokens(newUser._id);
 
-    // Return tokens
     return res.status(201).json({ success: true, accessToken, refreshToken });
   } catch (error) {
-    // Handle errors
     console.error("Error while registering user:", error);
     return res
       .status(500)

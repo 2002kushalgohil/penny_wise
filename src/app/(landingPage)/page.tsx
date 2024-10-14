@@ -1,5 +1,4 @@
-"use client"
-// Import necessary dependencies
+"use client";
 import React, { useState } from "react";
 import Hero from "./_components/Hero";
 import About from "./_components/About";
@@ -16,19 +15,15 @@ import Navbar from "./_components/Navbar";
 import EmailDialog from "./_components/utils/EmailDialog";
 import { Toaster } from "@/components/ui/sonner";
 
-
-// Define the page component
 function Page() {
-  // State to control the email signup dialog
-  const [isEmailSignupDialog, setIsEmailSignupDialog] = useState<boolean>(false);
+  const [isEmailSignupDialog, setIsEmailSignupDialog] =
+    useState<boolean>(false);
 
   return (
     <div className="flex justify-center">
       <div className="overflow-hidden w-full max-w-[2000px]">
-        {/* Navbar component */}
         <Navbar setIsEmailSignupDialog={setIsEmailSignupDialog} />
-        
-        {/* Various page sections */}
+
         <Hero setIsEmailSignupDialog={setIsEmailSignupDialog} />
         <About />
         <Companies />
@@ -41,13 +36,11 @@ function Page() {
         <Contact />
         <Footer setIsEmailSignupDialog={setIsEmailSignupDialog} />
       </div>
-      
-      {/* Email signup dialog component */}
       <EmailDialog
         isEmailSignupDialog={isEmailSignupDialog}
         setIsEmailSignupDialog={setIsEmailSignupDialog}
       />
-      <Toaster /> {/* Render toaster component */}
+      <Toaster />
     </div>
   );
 }

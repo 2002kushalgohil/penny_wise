@@ -15,6 +15,6 @@ const TopBar: React.FC = () => {
       </div>
     </div>
   );
-}
+};
 
 export default TopBar;

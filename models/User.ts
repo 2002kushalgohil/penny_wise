@@ -26,7 +26,7 @@ const preferencesSchema = new Schema<PreferencesDocument>({
 });
 
 // Define personal info schema
-export interface PersonalInfo {
+export interface PersonalInfo extends Document {
   firstName: string;
   lastName: string;
   birthdate: Date;
@@ -45,7 +45,7 @@ const personalInfoSchema = new Schema<PersonalInfo>({
 });
 
 // Define premium schema
-export interface PremiumDocument {
+export interface PremiumDocument extends Document {
   name: string;
   price: number;
   billingCycle: string;
@@ -65,11 +65,8 @@ const premiumSchema = new Schema<PremiumDocument>({
   billingCycle: { type: String, required: true },
   features: { type: [String], required: true },
   paymentDetails: {
-    type: {
-      paymentMethod: { type: String, required: true },
-      paymentId: { type: String, required: true },
-    },
-    required: true,
+    paymentMethod: { type: String, required: true },
+    paymentId: { type: String, required: true },
   },
   expireDate: { type: Date, required: true },
   status: { type: String, required: true },

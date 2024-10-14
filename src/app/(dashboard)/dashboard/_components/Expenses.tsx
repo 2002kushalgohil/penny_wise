@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from "react";
 import {
   Line,
@@ -9,13 +9,11 @@ import {
   YAxis,
 } from "recharts";
 
-// Define data type for each data point
 interface Data {
   name: string;
   amount: number;
 }
 
-// Sample data for expenses
 const data: Data[] = [
   { name: "Jan", amount: Math.floor(Math.random() * 2000) + 500 },
   { name: "Feb", amount: Math.floor(Math.random() * 2000) + 500 },
@@ -25,27 +23,17 @@ const data: Data[] = [
   { name: "Jun", amount: Math.floor(Math.random() * 2000) + 500 },
 ];
 
-// Expenses component renders a line chart for expenses
 export function Expenses() {
   return (
     <ResponsiveContainer width="100%" height={350}>
-      {/* LineChart component */}
       <LineChart data={data}>
-        {/* XAxis component */}
-        <XAxis
-          dataKey="name"
-          fontSize={12}
-          tickLine={false}
-          axisLine={false}
-        />
-        {/* YAxis component */}
+        <XAxis dataKey="name" fontSize={12} tickLine={false} axisLine={false} />
         <YAxis
           fontSize={12}
           tickLine={false}
           axisLine={false}
           tickFormatter={(value) => `$${value}`}
         />
-        {/* Line component */}
         <Line
           type="monotone"
           dataKey="amount"
@@ -55,7 +43,6 @@ export function Expenses() {
           activeDot={{ r: 8 }}
           strokeDasharray="5 5"
         />
-        {/* Tooltip component */}
         <Tooltip />
       </LineChart>
     </ResponsiveContainer>

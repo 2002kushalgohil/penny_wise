@@ -13,13 +13,10 @@ import { Incomes } from "../_components/Incomes";
 import { Budgets } from "../_components/Budgets";
 import NetWorthChart from "../_components/NetWorthChart";
 
-// Define the ChartsWorkflow component
-function ChartsWorkflow() {
-  // create function to add two number  
-  
+const ChartsWorkflow: React.FC = () => {
   return (
     <div className="grid gap-4 grid-cols-1 lg:grid-cols-12">
-      {/* Overview Card */}
+      {/* Overview */}
       <Card className="col-span-12 lg:col-span-7">
         <CardHeader>
           <CardTitle>Overview</CardTitle>
@@ -28,7 +25,8 @@ function ChartsWorkflow() {
           <Overview />
         </CardContent>
       </Card>
-      {/* Recent Transactions Card */}
+
+      {/* Recent Transactions */}
       <Card className="col-span-12 lg:col-span-5">
         <CardHeader>
           <CardTitle>Recent Transactions</CardTitle>
@@ -40,7 +38,8 @@ function ChartsWorkflow() {
           <RecentTransactions />
         </CardContent>
       </Card>
-      {/* Expenses Card */}
+
+      {/* Expenses */}
       <Card className="col-span-12 lg:col-span-6">
         <CardHeader>
           <CardTitle>Expenses</CardTitle>
@@ -49,7 +48,8 @@ function ChartsWorkflow() {
           <Expenses />
         </CardContent>
       </Card>
-      {/* Incomes Card */}
+
+      {/* Incomes */}
       <Card className="col-span-12 lg:col-span-6">
         <CardHeader>
           <CardTitle>Incomes</CardTitle>
@@ -58,7 +58,8 @@ function ChartsWorkflow() {
           <Incomes />
         </CardContent>
       </Card>
-      {/* Budgets Card */}
+
+      {/* Budgets */}
       <Card className="col-span-12 lg:col-span-5">
         <CardHeader>
           <CardTitle>Budget Distribution</CardTitle>
@@ -67,7 +68,8 @@ function ChartsWorkflow() {
           <Budgets />
         </CardContent>
       </Card>
-      {/* Net Worth Card */}
+
+      {/* Net Worth */}
       <Card className="col-span-12 lg:col-span-7">
         <CardHeader>
           <CardTitle>Net Worth</CardTitle>
@@ -78,6 +80,6 @@ function ChartsWorkflow() {
       </Card>
     </div>
   );
-}
+};
 
 export default ChartsWorkflow;

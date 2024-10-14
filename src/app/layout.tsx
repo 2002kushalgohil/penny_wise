@@ -23,20 +23,11 @@ interface RootLayoutProps {
   children: ReactNode;
 }
 
-// Determine the theme based on the current hour
-const determineTheme = () => {
-  const currentHour = new Date().getHours();
-  return currentHour >= 19 || currentHour <= 6 ? "dark" : "light";
-};
-
 // RootLayout component
 export default function RootLayout({ children }: RootLayoutProps) {
-  // Determine the theme
-  const theme = determineTheme();
-
   return (
     <html lang="en">
-      <body className={theme}>
+      <body>
         <Head>
           <meta
             name="viewport"
