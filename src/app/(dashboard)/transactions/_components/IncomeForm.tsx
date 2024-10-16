@@ -21,6 +21,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Calendar } from "@/components/ui/calendar";
+import { Textarea } from "@/components/ui/textarea";
+import axios from "axios";
+import { toast } from "sonner";
 
 const incomeFormSchema = z
   .object({
@@ -38,7 +41,7 @@ const incomeFormSchema = z
     date: z.date(),
     note: z.string().optional(),
     invoiceUrl: z.string().url().optional(),
-    tags: z.array(z.string()).optional(),
+    tags: z.string().optional(),
   })
   .refine((data) => data.date !== undefined, {
     message: "Date is required.",
@@ -56,7 +59,7 @@ function IncomeForm() {
       date: new Date(),
       note: "",
       invoiceUrl: "",
-      tags: [],
+      tags: "",
     },
   });
 
@@ -65,14 +68,22 @@ function IncomeForm() {
   ): Promise<void> {
     setIsLoading(true);
     try {
-      console.log("Form values:", values);
+      const response = await axios.post("/api/income", {
+        ...values,
+        tags: values.tags?.split(","), // converting tags to array
+      });
+
+      toast.success("Income created successfully!");
+
       form.reset();
     } catch (error) {
       console.error("Error:", error);
-    }
-    setIsLoading(false);
-  }
 
+      toast.error("Failed to create income 😬");
+    } finally {
+      setIsLoading(false);
+    }
+  }
   return (
     <Form {...form}>
       <form
@@ -206,13 +217,13 @@ function IncomeForm() {
             <FormItem>
               <FormLabel htmlFor="note">Note</FormLabel>
               <FormControl>
-                <Input id="note" placeholder="Optional Note" {...field} />
+                <Textarea id="note" placeholder="Optional Note" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button loading={isLoading} type="submit" size="lg">
+        <Button loading={isLoading} type="submit">
           Add Income
         </Button>
       </form>
